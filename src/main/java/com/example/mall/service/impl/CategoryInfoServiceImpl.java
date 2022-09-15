@@ -33,14 +33,14 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 		List<CategoryInfoEntity> list = baseMapper.selectList(null);
 		// 过滤一级分类
 		List<CategoryInfoEntity> level1 = list.stream().filter(categoryEntity -> {
-			return categoryEntity.getParentCid().equals(0);
+			return categoryEntity.getParentCid().equals(0L);
 		}).map(menu->{
 			menu.setChildren(getChildrens(menu,list));
 			return menu;
 		}).sorted((m1,m2)->{
 			return (m1.getSort()==null?0:m1.getSort())-(m2.getSort()==null?0:m2.getSort());
 		}).collect(Collectors.toList());
-		return list;
+		return level1;
 	}
 
 	/**

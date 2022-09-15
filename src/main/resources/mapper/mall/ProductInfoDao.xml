@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.mall.dao.ProductInfoDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+	<!-- 可根据自己的需求，是否要使用
     <resultMap type="com.example.mall.entity.ProductInfoEntity" id="productInfoMap">
         <result property="id" column="id"/>
         <result property="type" column="type"/>
@@ -12,7 +12,7 @@
         <result property="picture" column="picture"/>
         <result property="price" column="price"/>
         <result property="userId" column="user_id"/>
-    </resultMap>
+    </resultMap>-->
 
 
 </mapper>

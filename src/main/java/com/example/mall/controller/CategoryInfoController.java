@@ -14,7 +14,7 @@ import com.example.mall.vo.R;
 
 
 /**
- * 商品三级分类
+ * 商品分类
  *
  * @author ouyang
  * @email wanbzoy@163.com

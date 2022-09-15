@@ -1,5 +1,6 @@
 package com.example.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -47,6 +48,7 @@ public class CategoryInfoEntity implements Serializable {
 	 */
 	private Integer sort;
 
+	@TableField(exist = false)
 	private List<CategoryInfoEntity> children;
 
 }
