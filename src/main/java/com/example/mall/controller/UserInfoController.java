@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.vo.UserInfoQuery;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ import com.example.mall.vo.R;
 
 @Api(tags = "用户信息管理")
 @RestController
-@RequestMapping("/userinfo")
+@RequestMapping("/userInfo")
 public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
@@ -38,6 +40,27 @@ public class UserInfoController {
         return R.ok().setData(page);
     }
 
+    @ApiOperation("分页查询")
+    @PostMapping("/pageFind/{current}")
+    public R pageFind(@PathVariable("current")Integer current,
+                      @RequestBody(required = false) UserInfoQuery userInfoQuery){
+        Page<UserInfoEntity> page = userInfoService.getPage(current,userInfoQuery);
+        if (page!=null){
+            return R.ok().setData(page);
+        }else {
+            return R.error().setMessage("该条件下暂无数据");
+        }
+    }
+    @ApiOperation("添加用户")
+    @PostMapping("/addUser")
+    public R addUser(@RequestBody UserInfoEntity userInfo){
+        boolean save = userInfoService.save(userInfo);
+        if (save){
+            return R.ok();
+        }else {
+            return R.error();
+        }
+    }
 
     /**
      * 根据id查询信息
