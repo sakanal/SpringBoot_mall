@@ -43,15 +43,25 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 	@Override
 	public OrderInfoEntity getByOrderId(String orderId) {
 		OrderInfoEntity orderInfoEntity = this.getOne(new QueryWrapper<OrderInfoEntity>().eq(!StrUtil.isBlank(orderId), "order_sn", orderId));
-		List<String> productIds = orderProductService.list(new QueryWrapper<OrderProductEntity>()
-						.select("product_id")
-						.eq(!StrUtil.isBlank(orderInfoEntity.getOrderSn()), "order_sn", orderInfoEntity.getOrderSn()))
-				.stream()
-				.map(item -> {
-					return item.getProductId();
-				}).collect(Collectors.toList());
+		List<OrderProductEntity> orderProdectList = orderProductService.list(new QueryWrapper<OrderProductEntity>()
+				.eq(!StrUtil.isBlank(orderInfoEntity.getOrderSn()), "order_sn", orderInfoEntity.getOrderSn()));
+		List<String> productIds = orderProdectList.stream().map(item -> {
+			return item.getProductId();
+		}).collect(Collectors.toList());
 		List<ProductInfoEntity> productInfoEntities = productInfoService.listByIds(productIds);
+		for (ProductInfoEntity productInfoEntity : productInfoEntities) {
+			productInfoEntity.setNumber(getOrderProductNumber(productInfoEntity.getId(),orderProdectList));
+		}
 		orderInfoEntity.setProductList(productInfoEntities);
 		return orderInfoEntity;
+	}
+
+	private Integer getOrderProductNumber(String id, List<OrderProductEntity> orderProdectList) {
+		for (OrderProductEntity orderProductEntity : orderProdectList) {
+			if (orderProductEntity.getId().equals(id)){
+				return orderProductEntity.getNumber();
+			}
+		}
+		return 0;
 	}
 }

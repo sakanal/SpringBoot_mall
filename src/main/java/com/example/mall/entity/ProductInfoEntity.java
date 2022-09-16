@@ -1,5 +1,6 @@
 package com.example.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -62,4 +63,10 @@ public class ProductInfoEntity implements Serializable {
 	@ApiModelProperty("商家id")
 	private String userId;
 
+	/**
+	 * (冗余字段)
+	 * 用于记录订单详情的数量
+	 */
+	@TableField(exist = false)
+	private Integer number;
 }
