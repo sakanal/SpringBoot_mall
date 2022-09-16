@@ -18,5 +18,9 @@ public interface CategoryInfoService extends IService<CategoryInfoEntity> {
 	Page<CategoryInfoEntity> getPage(Map<String, Object> params);
 
 	List<CategoryInfoEntity> listWithTree();
+
+	List<CategoryInfoEntity> getOneAndTwoLevel();
+
+	CategoryInfoEntity getThreeLevel(Long catId);
 }
 

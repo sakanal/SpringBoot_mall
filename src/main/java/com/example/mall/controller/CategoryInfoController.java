@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.constant.ResultMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,6 +50,28 @@ public class CategoryInfoController {
 		List<CategoryInfoEntity> list = categoryInfoService.listWithTree();
 
 		return R.ok().setData(list);
+	}
+
+	@ApiOperation("获取一级和二级分类")
+	@GetMapping("/getOneAndTwoLevel")
+	public R getOneAndTwoLevel(){
+		List<CategoryInfoEntity> categoryInfoEntityList = categoryInfoService.getOneAndTwoLevel();
+		if (categoryInfoEntityList!=null){
+			return R.ok().setData(categoryInfoEntityList);
+		}else {
+			return R.error(ResultMessage.NO_RESULT_DATA);
+		}
+	}
+
+	@ApiOperation("根据父id获取类别信息以及其下一级的所有子类别")
+	@GetMapping("/getThreeLevel/{catId}")
+	public R getThreeLevel(@PathVariable("catId")Long catId){
+		CategoryInfoEntity categoryInfoEntity = categoryInfoService.getThreeLevel(catId);
+		if (categoryInfoEntity!=null){
+			return R.ok().setData(categoryInfoEntity);
+		}else {
+			return R.error(ResultMessage.NO_RESULT_DATA);
+		}
 	}
 
 	/**
