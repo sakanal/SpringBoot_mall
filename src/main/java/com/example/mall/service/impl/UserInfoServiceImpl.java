@@ -1,5 +1,6 @@
 package com.example.mall.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.exception.MyException;
@@ -55,6 +56,29 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 		}else {
 			return null;
 		}
+	}
+
+	@Override
+	public boolean addUser(UserInfoEntity user) {
+		user.setCreateTime(new Date());
+		QueryWrapper<UserInfoEntity> wrapper = new QueryWrapper<>();
+		wrapper.eq(user.getUserName()!=null,"username",user.getUserName())
+				.or().eq(user.getEmail()!=null,"email",user.getEmail())
+				.or().eq(user.getMobile()!=null,"mobile",user.getMobile());
+		if (this.count(wrapper)>0) {
+			return false;
+		}
+		boolean success = this.save(user);
+		return success;
+	}
+
+	@Override
+	public boolean index(UserInfoEntity user) {
+		if (StrUtil.isBlank(user.getPassword())||StrUtil.isBlank(user.getEmail())){
+			return false;
+		}
+		long count = this.count(new QueryWrapper<UserInfoEntity>().eq("password", user.getPassword()).eq("email", user.getEmail()).last(" limit 1"));
+		return count>0;
 	}
 
 }

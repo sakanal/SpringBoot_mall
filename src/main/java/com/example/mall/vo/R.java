@@ -38,4 +38,10 @@ public class R {
         r.message=ResultMessage.ERROR.getMessage();
         return r;
     }
+    public static R error(ResultMessage rs){
+        R r = new R();
+        r.code=rs.getCode();
+        r.message=rs.getMessage();
+        return r;
+    }
 }
