@@ -15,5 +15,7 @@ import java.util.Map;
 public interface OrderInfoService extends IService<OrderInfoEntity> {
 
 	Page<OrderInfoEntity> getPage(Map<String, Object> params);
+
+	OrderInfoEntity getByOrderId(String orderId);
 }
 

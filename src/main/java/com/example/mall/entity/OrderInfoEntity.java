@@ -1,10 +1,12 @@
 package com.example.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -80,4 +82,6 @@ public class OrderInfoEntity implements Serializable {
 	@ApiModelProperty("地址id")
 	private Integer addressId;
 
+	@TableField(exist = false)
+	List<ProductInfoEntity> productList;
 }

@@ -9,6 +9,11 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  mail:
+    host: smtp.163.com
+    username: pcx_online@163.com
+    password: JUXCNNPNVOMZVZHA
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
