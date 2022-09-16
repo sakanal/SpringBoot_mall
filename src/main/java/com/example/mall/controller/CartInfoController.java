@@ -23,7 +23,7 @@ import com.example.mall.vo.R;
  */
 @Api(tags = "购物车管理")
 @RestController
-@RequestMapping("/cartinfo")
+@RequestMapping("/cartInfo")
 public class CartInfoController {
     @Autowired
     private CartInfoService cartInfoService;

@@ -22,7 +22,7 @@ import com.example.mall.vo.R;
  */
 @Api(tags = "商品信息管理")
 @RestController
-@RequestMapping("/productinfo")
+@RequestMapping("/productInfo")
 public class ProductInfoController {
     @Autowired
     private ProductInfoService productInfoService;

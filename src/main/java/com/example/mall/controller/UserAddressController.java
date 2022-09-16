@@ -22,7 +22,7 @@ import com.example.mall.vo.R;
  */
 @Api(tags = "用户地址管理")
 @RestController
-@RequestMapping("/useraddress")
+@RequestMapping("/userAddress")
 public class UserAddressController {
     @Autowired
     private UserAddressService userAddressService;

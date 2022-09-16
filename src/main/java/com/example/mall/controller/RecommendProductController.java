@@ -22,7 +22,7 @@ import com.example.mall.vo.R;
  */
 @Api(tags = "商品推荐管理")
 @RestController
-@RequestMapping("/recommendproduct")
+@RequestMapping("/recommendProduct")
 public class RecommendProductController {
     @Autowired
     private RecommendProductService recommendProductService;

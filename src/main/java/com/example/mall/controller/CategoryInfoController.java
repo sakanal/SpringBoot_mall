@@ -24,7 +24,7 @@ import com.example.mall.vo.R;
  */
 @Api(tags = "商品分类管理")
 @RestController
-@RequestMapping("/categoryinfo")
+@RequestMapping("/categoryInfo")
 public class CategoryInfoController {
 	@Autowired
 	private CategoryInfoService categoryInfoService;
