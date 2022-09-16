@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.service.RecommendProductService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ import com.example.mall.vo.R;
 public class ProductInfoController {
     @Autowired
     private ProductInfoService productInfoService;
+    @Autowired
+    private RecommendProductService recommendProductService;
 
     /**
      * 列表
@@ -74,8 +77,8 @@ public class ProductInfoController {
     @DeleteMapping("/delete")
     public R delete(@RequestBody String[] ids){
 		productInfoService.removeByIds(Arrays.asList(ids));
+        recommendProductService.removeBatchByProductIds(ids);
 
         return R.ok();
     }
-
 }

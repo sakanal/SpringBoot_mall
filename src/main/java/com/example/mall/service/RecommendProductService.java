@@ -15,5 +15,7 @@ import java.util.Map;
 public interface RecommendProductService extends IService<RecommendProductEntity> {
 
 	Page<RecommendProductEntity> getPage(Map<String, Object> params);
+
+	void removeBatchByProductIds(String[] ids);
 }
 

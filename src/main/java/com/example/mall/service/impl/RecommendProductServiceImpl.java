@@ -24,4 +24,9 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 		return RecommendProductPage;
     }
 
+	@Override
+	public void removeBatchByProductIds(String[] ids) {
+		this.remove(new QueryWrapper<RecommendProductEntity>().in("product_id",ids));
+	}
+
 }
