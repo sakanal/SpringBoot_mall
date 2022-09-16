@@ -5,6 +5,7 @@ import com.example.mall.dao.CartInfoDao;
 import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.CategoryInfoEntity;
 import com.example.mall.service.CategoryInfoService;
+import com.example.mall.service.MessageSendService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,8 @@ class MallApplicationTests {
 	private CartInfoDao cartInfoDao;
 	@Autowired
 	private CategoryInfoService categoryInfoService;
+	@Autowired
+	private MessageSendService messageSendService;
 
 
 	@Test
@@ -41,6 +44,11 @@ class MallApplicationTests {
 		HashMap<String, Object> params = new HashMap<>();
 		Integer current= new Integer(params.get("current").toString());
 
+	}
+
+	@Test
+	public void testSendMsg(){
+		messageSendService.sendMsg("2501947461@qq.com","123456");
 	}
 
 }
