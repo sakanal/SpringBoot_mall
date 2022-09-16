@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,12 @@ import com.example.mall.vo.R;
 
 
 /**
- * 
+ *
  *
  * @author ouyang
  * @email wanbzoy@163.com
  */
+@Api(tags = "商品信息管理")
 @RestController
 @RequestMapping("/productinfo")
 public class ProductInfoController {

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +16,12 @@ import com.example.mall.vo.R;
 
 
 /**
- * 
+ *
  *
  * @author ouyang
  * @email wanbzoy@163.com
  */
+@Api(tags = "购物车管理")
 @RestController
 @RequestMapping("/cartinfo")
 public class CartInfoController {
@@ -28,6 +31,7 @@ public class CartInfoController {
     /**
      * 列表
      */
+    @ApiOperation("分页查询")
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         Page<CartInfoEntity> page = cartInfoService.getPage(params);
@@ -39,6 +43,7 @@ public class CartInfoController {
     /**
      * 根据id查询信息
      */
+    @ApiOperation("根据id查询信息")
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") String id){
 		CartInfoEntity cartInfo = cartInfoService.getById(id);
@@ -49,6 +54,7 @@ public class CartInfoController {
     /**
      * 保存
      */
+    @ApiOperation("保存")
     @PostMapping("/save")
     public R save(@RequestBody CartInfoEntity cartInfo){
 		cartInfoService.save(cartInfo);
@@ -59,6 +65,7 @@ public class CartInfoController {
     /**
      * 修改
      */
+    @ApiOperation("根据id修改")
     @PutMapping("/update")
     public R update(@RequestBody CartInfoEntity cartInfo){
 		cartInfoService.updateById(cartInfo);
@@ -69,6 +76,7 @@ public class CartInfoController {
     /**
      * 删除
      */
+    @ApiOperation("根据id删除")
     @DeleteMapping("/delete")
     public R delete(@RequestBody String[] ids){
 		cartInfoService.removeByIds(Arrays.asList(ids));
