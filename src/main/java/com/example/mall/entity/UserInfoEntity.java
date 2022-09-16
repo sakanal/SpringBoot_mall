@@ -1,8 +1,6 @@
 package com.example.mall.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -34,7 +32,8 @@ public class UserInfoEntity implements Serializable {
 	 * 用户名
 	 */
 	@ApiModelProperty("用户名")
-	private String username;
+	@TableField(value = "username")
+	private String userName;
 	/**
 	 * 密码
 	 */
@@ -64,11 +63,13 @@ public class UserInfoEntity implements Serializable {
 	 * 注册时间
 	 */
 	@ApiModelProperty("注册时间")
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 修改时间
 	 */
 	@ApiModelProperty("修改时间")
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 	/**
 	 *
