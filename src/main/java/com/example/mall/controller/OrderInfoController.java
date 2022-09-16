@@ -39,11 +39,11 @@ public class OrderInfoController {
 
 
     /**
-     * 根据id查询信息
+     * 根据订单id查询订单详细信息
      */
-    @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") String id){
-		OrderInfoEntity orderInfo = orderInfoService.getById(id);
+    @GetMapping("/info/{orderId}")
+    public R info(@PathVariable("orderId") String orderId){
+		OrderInfoEntity orderInfo = orderInfoService.getByOrderId(orderId);
 
         return R.ok().setData(orderInfo);
     }

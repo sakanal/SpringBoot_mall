@@ -6,6 +6,7 @@ import com.example.mall.entity.UserInfoEntity;
 import com.example.mall.service.MessageSendService;
 import com.example.mall.service.UserInfoService;
 import com.example.mall.vo.R;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class LoginController {
 	@Autowired
 	private MessageSendService messageSendService;
 
+	@ApiOperation("注册获取验证码")
 	@GetMapping("/getMsCode")
 	public R getMessageCode(String email) {
 		if (StrUtil.isBlank(email)) {
@@ -32,6 +34,8 @@ public class LoginController {
 		}
 	}
 
+
+	@ApiOperation("注册")
 	@PostMapping("/register")
 	public R register(@RequestBody UserInfoEntity user) {
 		boolean success = userInfoService.addUser(user);
