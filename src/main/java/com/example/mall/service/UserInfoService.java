@@ -15,5 +15,9 @@ import java.util.Map;
 public interface UserInfoService extends IService<UserInfoEntity> {
 
 	Page<UserInfoEntity> getPage(Map<String, Object> params);
+
+	boolean addUser(UserInfoEntity user);
+
+	boolean index(UserInfoEntity user);
 }
 
