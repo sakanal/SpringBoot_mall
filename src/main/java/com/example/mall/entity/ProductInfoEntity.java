@@ -46,12 +46,12 @@ public class ProductInfoEntity implements Serializable {
 	 * 描述
 	 */
 	@ApiModelProperty("描述")
-	private String describe;
+	private String description;
 	/**
 	 * 商品主图
 	 */
 	@ApiModelProperty("商品主图")
-	private List<String> picture;
+	private String picture;
 	/**
 	 * 价格
 	 */
