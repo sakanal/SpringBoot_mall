@@ -83,6 +83,70 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/oneLevel',
+    name: '类别管理',
+    meta: { title: '类别管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'oneLevel',
+        name: '类别管理',
+        component: () => import('@/views/category/oneLevel'),
+        meta: { title: '类别管理', icon: 'table' }
+      },
+      {
+        path: 'twoLevel/:catId',
+        name: '二级分类',
+        component: () => import('@/views/category/twoLevel'),
+        meta: { title: '二级分类', icon: 'table' },
+        hidden: true
+      },
+      {
+        path: 'product/:catId',
+        name: '商品列表',
+        component: () => import('@/views/product/list'),
+        meta: { title: '商品列表', icon: 'tree' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: Layout,
+    redirect: '/product/list',
+    name: '商品管理',
+    meta: { title: '商品管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '商品列表',
+        component: () => import('@/views/product/list'),
+        meta: { title: '商品列表', icon: 'tree' }
+      },
+      {
+        path: 'add',
+        name: '添加商品',
+        component: () => import('@/views/product/add'),
+        meta: { title: '添加商品', icon: 'tree' }
+      },
+      {
+        path: 'update/:productId',
+        name: '修改商品',
+        component: () => import('@/views/product/add'),
+        meta: { title: '修改商品', icon: 'tree' },
+        hidden: true
+      },
+      {
+        path: 'productInfo/:productId',
+        name: '商品详细',
+        component: () => import('@/views/product/productInfo'),
+        meta: { title: '商品详细', icon: 'tree' },
+        hidden: true
+      }
+    ]
+  },
 
   {
     path: '/form',
