@@ -34,5 +34,11 @@ export default {
       method: 'put',
       data: userInfo
     })
+  },
+  getMerchantList() {
+    return request({
+      url: '/userInfo/findMerchant',
+      method: 'get'
+    })
   }
 }
