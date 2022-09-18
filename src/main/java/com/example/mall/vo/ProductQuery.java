@@ -16,6 +16,8 @@ public class ProductQuery {
     private Long cat_id;
     @ApiModelProperty("商品名称")
     private String name;
+    @ApiModelProperty("商家id")
+    private String userId;
     @ApiModelProperty("商品价格")
     private Integer price;
 }

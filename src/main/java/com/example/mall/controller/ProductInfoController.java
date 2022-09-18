@@ -1,6 +1,15 @@
 package com.example.mall.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.vo.PictureVo;
 import com.example.mall.entity.ProductInfoEntity;
 import com.example.mall.service.CartInfoService;
 import com.example.mall.service.OrderProductService;
@@ -10,6 +19,8 @@ import com.example.mall.vo.ProductQuery;
 import com.example.mall.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +36,7 @@ import java.util.Map;
  * @email wanbzoy@163.com
  */
 @Api(tags = "商品信息管理")
+@Slf4j
 @RestController
 @RequestMapping("/productInfo")
 public class ProductInfoController {
@@ -48,7 +60,7 @@ public class ProductInfoController {
     }
 
     @ApiOperation("条件查询，分页")
-    @GetMapping("/pageFind/{current}")
+    @PostMapping("/pageFind/{current}")
     public R pageFind(@PathVariable("current")Integer current,
                       @RequestBody(required = false) ProductQuery productQuery){
         Page<ProductInfoEntity> page = productInfoService.getPage(current,productQuery);
@@ -66,6 +78,10 @@ public class ProductInfoController {
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") String id){
 		ProductInfoEntity productInfo = productInfoService.getById(id);
+        String picture = productInfo.getPicture();
+        JSONArray jsonArray = JSONUtil.parseArray(picture);
+        List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+        productInfo.setPictureList(pictureVos);
 
         return R.ok().setData(productInfo);
     }
@@ -75,6 +91,11 @@ public class ProductInfoController {
      */
     @PostMapping("/save")
     public R save(@RequestBody ProductInfoEntity productInfo){
+        List<PictureVo> pictureList = productInfo.getPictureList();
+        if (pictureList.size()>0){
+            String str = JSONUtil.toJsonStr(pictureList);
+            productInfo.setPicture(str);
+        }
 		productInfoService.save(productInfo);
 
         return R.ok();

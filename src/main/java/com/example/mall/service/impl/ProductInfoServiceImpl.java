@@ -32,15 +32,20 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 	public Page<ProductInfoEntity> getPage(Integer current, ProductQuery productQuery) {
 		Page<ProductInfoEntity> page = new Page<>(current,SelectArg.PAGESIZE);
 		QueryWrapper<ProductInfoEntity> queryWrapper = new QueryWrapper<>();
-		Long cat_id = productQuery.getCat_id();
-		String name = productQuery.getName();
-		Integer price = productQuery.getPrice();
-		if (StringUtils.hasText(name))
-			queryWrapper.like("name",name);
-		if (!StringUtils.isEmpty(cat_id))
-			queryWrapper.eq("cat_id",cat_id);
-		if (!StringUtils.isEmpty(price))
-			queryWrapper.le("price",price);
+		if (productQuery!=null){
+			Long cat_id = productQuery.getCat_id();
+			String name = productQuery.getName();
+			Integer price = productQuery.getPrice();
+			String userId = productQuery.getUserId();
+			if (StringUtils.hasText(name))
+				queryWrapper.like("name",name);
+			if (!StringUtils.isEmpty(cat_id))
+				queryWrapper.eq("cat_id",cat_id);
+			if (!StringUtils.isEmpty(price))
+				queryWrapper.le("price",price);
+			if (StringUtils.hasText(userId))
+				queryWrapper.eq("user_id",userId);
+		}
 		this.page(page,queryWrapper);
 		return page;
 	}
