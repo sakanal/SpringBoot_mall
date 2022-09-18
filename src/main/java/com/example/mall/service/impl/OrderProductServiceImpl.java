@@ -24,4 +24,9 @@ public class OrderProductServiceImpl extends ServiceImpl<OrderProductDao, OrderP
 		return OrderProductPage;
     }
 
+	@Override
+	public void removeByProductIds(String[] ids) {
+		this.remove(new QueryWrapper<OrderProductEntity>().in("product_id",ids));
+	}
+
 }

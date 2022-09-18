@@ -28,4 +28,9 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 		return CartInfoPage;
 	}
 
+	@Override
+	public void removeByProductIds(String[] ids) {
+		this.remove(new QueryWrapper<CartInfoEntity>().in("product_id",ids));
+	}
+
 }

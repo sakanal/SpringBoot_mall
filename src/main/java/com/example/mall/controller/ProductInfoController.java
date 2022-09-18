@@ -1,20 +1,20 @@
 package com.example.mall.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.mall.vo.ProductQuery;
+import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.service.CartInfoService;
+import com.example.mall.service.OrderProductService;
+import com.example.mall.service.ProductInfoService;
 import com.example.mall.service.RecommendProductService;
+import com.example.mall.vo.ProductQuery;
+import com.example.mall.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mall.entity.ProductInfoEntity;
-import com.example.mall.service.ProductInfoService;
-import com.example.mall.vo.R;
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -32,6 +32,10 @@ public class ProductInfoController {
     private ProductInfoService productInfoService;
     @Autowired
     private RecommendProductService recommendProductService;
+    @Autowired
+    private OrderProductService orderProductService;
+    @Autowired
+    private CartInfoService cartInfoService;
 
     /**
      * 列表
@@ -93,6 +97,8 @@ public class ProductInfoController {
     public R delete(@RequestBody String[] ids){
 		productInfoService.removeByIds(Arrays.asList(ids));
         recommendProductService.removeBatchByProductIds(ids);
+        orderProductService.removeByProductIds(ids);
+        cartInfoService.removeByProductIds(ids);
 
         return R.ok();
     }

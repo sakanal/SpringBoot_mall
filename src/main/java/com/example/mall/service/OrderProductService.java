@@ -15,5 +15,7 @@ import java.util.Map;
 public interface OrderProductService extends IService<OrderProductEntity> {
 
 	Page<OrderProductEntity> getPage(Map<String, Object> params);
+
+    void removeByProductIds(String[] ids);
 }
 

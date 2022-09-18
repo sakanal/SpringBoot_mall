@@ -15,5 +15,7 @@ import java.util.Map;
 public interface CartInfoService extends IService<CartInfoEntity> {
 
 	Page<CartInfoEntity> getPage(Map<String, Object> params);
+
+    void removeByProductIds(String[] ids);
 }
 
