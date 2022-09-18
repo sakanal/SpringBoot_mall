@@ -13,6 +13,10 @@ spring:
     host: smtp.163.com
     username: pcx_online@163.com
     password: JUXCNNPNVOMZVZHA
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 20MB
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -22,3 +26,10 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+aliyun:
+  oss:
+    file:
+      keyId: 这是id
+      keySecret: 这是密码
+      endpoint: 这是地域节点
+      bucketName: 这是bucketName
