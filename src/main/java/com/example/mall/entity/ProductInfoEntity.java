@@ -36,7 +36,7 @@ public class ProductInfoEntity implements Serializable {
 	 * 商品类型
 	 */
 	@ApiModelProperty("商品类型")
-	private String type;
+	private Long catId;
 	/**
 	 * 商品标题
 	 */

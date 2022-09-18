@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80028
 File Encoding         : 65001
 
-Date: 2022-09-17 17:07:58
+Date: 2022-09-18 09:36:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,7 +44,7 @@ CREATE TABLE `category_info` (
   `sort` int DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`cat_id`) USING BTREE,
   KEY `parent_cid` (`parent_cid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='商品三级分类';
+) ENGINE=InnoDB AUTO_INCREMENT=1454 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='商品三级分类';
 
 -- ----------------------------
 -- Records of category_info
@@ -1473,11 +1473,12 @@ INSERT INTO `category_info` VALUES ('1421', '跑车（二手）', '164', '3', '1
 INSERT INTO `category_info` VALUES ('1422', '皮卡（二手）', '164', '3', '1', '0');
 INSERT INTO `category_info` VALUES ('1423', '面包车（二手）', '164', '3', '1', '0');
 INSERT INTO `category_info` VALUES ('1431', 'dsa323', '1', '2', '1', null);
-INSERT INTO `category_info` VALUES ('1432', 'fdsffdsadddd大萨达', '1431', '3', '1', null);
-INSERT INTO `category_info` VALUES ('1433', '测试修改', '0', '1', '0', '2');
-INSERT INTO `category_info` VALUES ('1436', '副分类', '0', '1', '0', '0');
+INSERT INTO `category_info` VALUES ('1432', 'fdsffdsadddd大萨达', '1431', '3', '1', '0');
+INSERT INTO `category_info` VALUES ('1433', '测试修改1', '0', '1', '0', '0');
 INSERT INTO `category_info` VALUES ('1441', '1', '1436', '2', '0', '0');
 INSERT INTO `category_info` VALUES ('1442', '2', '1436', '2', '0', '0');
+INSERT INTO `category_info` VALUES ('1449', '1', '1433', '2', '0', '0');
+INSERT INTO `category_info` VALUES ('1452', '2', '1449', '3', '0', '0');
 
 -- ----------------------------
 -- Table structure for order_info
@@ -1524,7 +1525,7 @@ CREATE TABLE `order_product` (
 DROP TABLE IF EXISTS `product_info`;
 CREATE TABLE `product_info` (
   `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品类型',
+  `cat_id` bigint DEFAULT NULL COMMENT '商品类型-(cat_id)',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商品标题',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '描述',
   `picture` json DEFAULT NULL COMMENT '商品主图',
