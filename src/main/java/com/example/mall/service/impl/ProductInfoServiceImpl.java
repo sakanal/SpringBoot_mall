@@ -1,5 +1,6 @@
 package com.example.mall.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.vo.ProductQuery;
@@ -48,6 +49,12 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 		}
 		this.page(page,queryWrapper);
 		return page;
+	}
+
+	@Override
+	public List<ProductInfoEntity> getProductsByUserId(String id) {
+		this.list(new QueryWrapper<ProductInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
+		return null;
 	}
 
 }

@@ -5,6 +5,7 @@ import com.example.mall.entity.ProductInfoEntity;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.vo.ProductQuery;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +19,7 @@ public interface ProductInfoService extends IService<ProductInfoEntity> {
 	Page<ProductInfoEntity> getPage(Map<String, Object> params);
 
 	Page<ProductInfoEntity> getPage(Integer current, ProductQuery productQuery);
+
+	List<ProductInfoEntity> getProductsByUserId(String id);
 }
 

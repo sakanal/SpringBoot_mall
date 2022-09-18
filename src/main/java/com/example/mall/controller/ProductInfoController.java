@@ -28,10 +28,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 
-
 /**
- *
- *
  * @author ouyang
  * @email wanbzoy@163.com
  */
@@ -40,88 +37,97 @@ import java.util.Map;
 @RestController
 @RequestMapping("/productInfo")
 public class ProductInfoController {
-    @Autowired
-    private ProductInfoService productInfoService;
-    @Autowired
-    private RecommendProductService recommendProductService;
-    @Autowired
-    private OrderProductService orderProductService;
-    @Autowired
-    private CartInfoService cartInfoService;
-
-    /**
-     * 列表
-     */
-    @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        Page<ProductInfoEntity> page = productInfoService.getPage(params);
-
-        return R.ok().setData(page);
-    }
-
-    @ApiOperation("条件查询，分页")
-    @PostMapping("/pageFind/{current}")
-    public R pageFind(@PathVariable("current")Integer current,
-                      @RequestBody(required = false) ProductQuery productQuery){
-        Page<ProductInfoEntity> page = productInfoService.getPage(current,productQuery);
-        if (page.getRecords().size()>0){
-            return R.ok().setData(page);
-        }else {
-            return R.error().setMessage("暂无数据");
-        }
-    }
+	@Autowired
+	private ProductInfoService productInfoService;
+	@Autowired
+	private RecommendProductService recommendProductService;
+	@Autowired
+	private OrderProductService orderProductService;
+	@Autowired
+	private CartInfoService cartInfoService;
 
 
-    /**
-     * 根据id查询信息
-     */
-    @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") String id){
+	@ApiOperation("根据商家id查询所有商品")
+	@PostMapping("/listProduct/{id}")
+	public R pageFind(@PathVariable("id") String id) {
+		List<ProductInfoEntity> list = productInfoService.getProductsByUserId(id);
+
+		return R.ok().setData(list);
+	}
+
+	/**
+	 * 列表
+	 */
+	@GetMapping("/list")
+	public R list(@RequestParam Map<String, Object> params) {
+		Page<ProductInfoEntity> page = productInfoService.getPage(params);
+
+		return R.ok().setData(page);
+	}
+
+	@ApiOperation("条件查询，分页")
+	@PostMapping("/pageFind/{current}")
+	public R pageFind(@PathVariable("current") Integer current,
+					  @RequestBody(required = false) ProductQuery productQuery) {
+		Page<ProductInfoEntity> page = productInfoService.getPage(current, productQuery);
+		if (page.getRecords().size() > 0) {
+			return R.ok().setData(page);
+		} else {
+			return R.error().setMessage("暂无数据");
+		}
+	}
+
+
+	/**
+	 * 根据id查询信息
+	 */
+	@GetMapping("/info/{id}")
+	public R info(@PathVariable("id") String id) {
 		ProductInfoEntity productInfo = productInfoService.getById(id);
-        String picture = productInfo.getPicture();
-        JSONArray jsonArray = JSONUtil.parseArray(picture);
-        List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-        productInfo.setPictureList(pictureVos);
+		String picture = productInfo.getPicture();
+		JSONArray jsonArray = JSONUtil.parseArray(picture);
+		List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+		productInfo.setPictureList(pictureVos);
 
-        return R.ok().setData(productInfo);
-    }
+		return R.ok().setData(productInfo);
+	}
 
-    /**
-     * 保存
-     */
-    @PostMapping("/save")
-    public R save(@RequestBody ProductInfoEntity productInfo){
-        List<PictureVo> pictureList = productInfo.getPictureList();
-        if (pictureList.size()>0){
-            String str = JSONUtil.toJsonStr(pictureList);
-            productInfo.setPicture(str);
-        }
+	/**
+	 * 保存
+	 */
+	@PostMapping("/save")
+	public R save(@RequestBody ProductInfoEntity productInfo) {
+		List<PictureVo> pictureList = productInfo.getPictureList();
+		if (pictureList.size() > 0) {
+			String str = JSONUtil.toJsonStr(pictureList);
+			productInfo.setPicture(str);
+		}
 		productInfoService.save(productInfo);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 修改
-     */
-    @PutMapping("/update")
-    public R update(@RequestBody ProductInfoEntity productInfo){
+	/**
+	 * 修改
+	 */
+	@PutMapping("/update")
+	public R update(@RequestBody ProductInfoEntity productInfo) {
 		productInfoService.updateById(productInfo);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 删除
-     */
-    @DeleteMapping("/delete")
-    public R delete(@RequestBody String[] ids){
+	/**
+	 * 删除
+	 */
+	@DeleteMapping("/delete")
+	public R delete(@RequestBody String[] ids) {
 		productInfoService.removeByIds(Arrays.asList(ids));
-        recommendProductService.removeBatchByProductIds(ids);
-        orderProductService.removeByProductIds(ids);
-        cartInfoService.removeByProductIds(ids);
+		recommendProductService.removeBatchByProductIds(ids);
+		orderProductService.removeByProductIds(ids);
+		cartInfoService.removeByProductIds(ids);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
 }
