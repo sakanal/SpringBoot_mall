@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,6 +43,51 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 			return (m1.getSort()==null?0:m1.getSort())-(m2.getSort()==null?0:m2.getSort());
 		}).collect(Collectors.toList());
 		return level1;
+	}
+
+	@Override
+	public List<CategoryInfoEntity> getOneAndTwoLevel() {
+		QueryWrapper<CategoryInfoEntity> oneQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 1).orderByDesc("sort");
+		QueryWrapper<CategoryInfoEntity> twoQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 2).orderByDesc("sort");
+		//获取所有一级分类
+		List<CategoryInfoEntity> oneList = this.list(oneQueryWrapper);
+		//获取所有二级分类
+		List<CategoryInfoEntity> twoList = this.list(twoQueryWrapper);
+
+		List<CategoryInfoEntity> resultList = new ArrayList<>();
+		for (CategoryInfoEntity oneEntity : oneList){
+			//创建子类别列表
+			ArrayList<CategoryInfoEntity> childrenList = new ArrayList<>();
+			Long catId = oneEntity.getCatId();
+			for (CategoryInfoEntity twoEntity : twoList){
+				Long parentCid = twoEntity.getParentCid();
+				if (Objects.equals(catId, parentCid)){
+					//将符合要求的子类别加入列表中
+					childrenList.add(twoEntity);
+				}
+			}
+			//该一级分类存在二级分类，则将二级分类列表放入一级分类中
+			if (childrenList.size()>0){
+				oneEntity.setChildren(childrenList);
+			}
+			//将最终的一级分类放入返回结果列表中
+			resultList.add(oneEntity);
+		}
+		return resultList.size()>0?resultList:null;
+	}
+
+	@Override
+	public CategoryInfoEntity getThreeLevel(Long catId) {
+		CategoryInfoEntity parentEntity = this.getById(catId);
+		if (parentEntity!=null){
+			List<CategoryInfoEntity> childrenList = this.list(new QueryWrapper<CategoryInfoEntity>().eq("parent_cid", catId).orderByDesc("sort"));
+			if (childrenList.size()>0){
+				parentEntity.setChildren(childrenList);
+			}
+			return parentEntity;
+		}else {
+			return null;
+		}
 	}
 
 	/**

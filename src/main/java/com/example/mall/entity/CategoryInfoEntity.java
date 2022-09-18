@@ -1,5 +1,6 @@
 package com.example.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class CategoryInfoEntity implements Serializable {
 	/**
 	 * 分类id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	@ApiModelProperty("分类id")
 	private Long catId;
 	/**
