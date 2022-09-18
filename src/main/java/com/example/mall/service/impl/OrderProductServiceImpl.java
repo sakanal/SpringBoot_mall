@@ -29,4 +29,9 @@ public class OrderProductServiceImpl extends ServiceImpl<OrderProductDao, OrderP
 		this.remove(new QueryWrapper<OrderProductEntity>().in("product_id",ids));
 	}
 
+	@Override
+	public void removeByOrderIds(String[] ids) {
+		this.remove(new QueryWrapper<OrderProductEntity>().in("order_sn",ids));
+	}
+
 }

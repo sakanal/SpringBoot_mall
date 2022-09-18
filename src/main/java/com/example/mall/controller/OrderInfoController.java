@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.service.OrderProductService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ import com.example.mall.vo.R;
 public class OrderInfoController {
     @Autowired
     private OrderInfoService orderInfoService;
+    @Autowired
+    private OrderProductService orderProductService;
 
     /**
      * 列表
@@ -74,6 +77,7 @@ public class OrderInfoController {
     @DeleteMapping("/delete")
     public R delete(@RequestBody String[] ids){
 		orderInfoService.removeByIds(Arrays.asList(ids));
+        orderProductService.removeByOrderIds(ids);
 
         return R.ok();
     }
