@@ -132,9 +132,10 @@ export default {
         const ids = [userId]
         userInfo.removeUserById(ids)
           .then(response => {
-            this.$message.success('用户删除成功')
+            this.$message.success('该用户删除成功')
             this.getUserInfoListPage()
           })
+          .catch(error => console.log(error))
       })
     }
   }
