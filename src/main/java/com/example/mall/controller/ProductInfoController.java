@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.vo.ProductQuery;
 import com.example.mall.service.RecommendProductService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,18 @@ public class ProductInfoController {
         Page<ProductInfoEntity> page = productInfoService.getPage(params);
 
         return R.ok().setData(page);
+    }
+
+    @ApiOperation("条件查询，分页")
+    @GetMapping("/pageFind/{current}")
+    public R pageFind(@PathVariable("current")Integer current,
+                      @RequestBody(required = false) ProductQuery productQuery){
+        Page<ProductInfoEntity> page = productInfoService.getPage(current,productQuery);
+        if (page.getRecords().size()>0){
+            return R.ok().setData(page);
+        }else {
+            return R.error().setMessage("暂无数据");
+        }
     }
 
 
@@ -81,4 +96,5 @@ public class ProductInfoController {
 
         return R.ok();
     }
+
 }
