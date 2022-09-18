@@ -30,6 +30,14 @@ public class CategoryInfoController {
 	@Autowired
 	private CategoryInfoService categoryInfoService;
 
+	@ApiOperation("通过三级分类id返回所需要的各个级别数组")
+	@GetMapping("/getPath/{id}")
+	public R getTypePath(@PathVariable("id") Long id) {
+		List<Long> path = categoryInfoService.getCategoryPath(id);
+
+		return R.ok().setData(path);
+	}
+
 	/**
 	 * 列表
 	 */

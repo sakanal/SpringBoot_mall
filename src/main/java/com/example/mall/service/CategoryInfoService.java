@@ -22,5 +22,7 @@ public interface CategoryInfoService extends IService<CategoryInfoEntity> {
 	List<CategoryInfoEntity> getOneAndTwoLevel();
 
 	CategoryInfoEntity getThreeLevel(Long catId);
+
+	List<Long> getCategoryPath(Long id);
 }
 

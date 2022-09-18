@@ -1,13 +1,11 @@
 package com.example.mall.service.impl;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -88,6 +86,25 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 		}else {
 			return null;
 		}
+	}
+
+	/**
+	 * 根据分类id获取分类路径
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public List<Long> getCategoryPath(Long id) {
+		Long parentId=-1L;
+		CategoryInfoEntity categoryInfoEntity = this.getById(id);
+		ArrayList<Long> res = new ArrayList<>();
+		res.add(id);
+		while (!new Long(0L).equals(categoryInfoEntity.getParentCid())){
+			categoryInfoEntity=this.getById(categoryInfoEntity.getParentCid());
+			res.add(categoryInfoEntity.getCatId());
+		}
+		Collections.reverse(res);
+		return res;
 	}
 
 	/**
