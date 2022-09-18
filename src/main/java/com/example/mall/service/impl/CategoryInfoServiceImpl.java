@@ -47,8 +47,8 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 
 	@Override
 	public List<CategoryInfoEntity> getOneAndTwoLevel() {
-		QueryWrapper<CategoryInfoEntity> oneQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 1);
-		QueryWrapper<CategoryInfoEntity> twoQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 2);
+		QueryWrapper<CategoryInfoEntity> oneQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 1).orderByDesc("sort");
+		QueryWrapper<CategoryInfoEntity> twoQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 2).orderByDesc("sort");
 		//获取所有一级分类
 		List<CategoryInfoEntity> oneList = this.list(oneQueryWrapper);
 		//获取所有二级分类
@@ -80,7 +80,7 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 	public CategoryInfoEntity getThreeLevel(Long catId) {
 		CategoryInfoEntity parentEntity = this.getById(catId);
 		if (parentEntity!=null){
-			List<CategoryInfoEntity> childrenList = this.list(new QueryWrapper<CategoryInfoEntity>().eq("parent_cid", catId));
+			List<CategoryInfoEntity> childrenList = this.list(new QueryWrapper<CategoryInfoEntity>().eq("parent_cid", catId).orderByDesc("sort"));
 			if (childrenList.size()>0){
 				parentEntity.setChildren(childrenList);
 			}
