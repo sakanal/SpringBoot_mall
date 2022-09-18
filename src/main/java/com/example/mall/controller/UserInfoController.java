@@ -1,8 +1,10 @@
 package com.example.mall.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.ResultMessage;
 import com.example.mall.vo.UserInfoQuery;
@@ -48,6 +50,16 @@ public class UserInfoController {
         Page<UserInfoEntity> page = userInfoService.getPage(current,userInfoQuery);
         if (page!=null){
             return R.ok().setData(page);
+        }else {
+            return R.error().setMessage("该条件下暂无数据");
+        }
+    }
+    @ApiOperation("查询所有商家")
+    @GetMapping("/findMerchant")
+    public R pageFind(){
+        List<UserInfoEntity> list = userInfoService.list(new QueryWrapper<UserInfoEntity>().eq("role", 1));
+        if (list!=null){
+            return R.ok().setData(list);
         }else {
             return R.error().setMessage("该条件下暂无数据");
         }
