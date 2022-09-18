@@ -107,11 +107,17 @@ public class ProductInfoController {
 		return R.ok();
 	}
 
-	/**
-	 * 修改
-	 */
-	@PutMapping("/update")
-	public R update(@RequestBody ProductInfoEntity productInfo) {
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public R update(@RequestBody ProductInfoEntity productInfo){
+        List<PictureVo> pictureList = productInfo.getPictureList();
+        if (pictureList.size()>0){
+            String str = JSONUtil.toJsonStr(pictureList);
+            productInfo.setPicture(str);
+        }
+        log.info(String.valueOf(pictureList));
 		productInfoService.updateById(productInfo);
 
 		return R.ok();
