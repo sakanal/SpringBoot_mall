@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  *
  * @author ouyang
  * @email wanbzoy@163.com
@@ -20,5 +20,9 @@ public interface RecommendProductService extends IService<RecommendProductEntity
 	void removeBatchByProductIds(String[] ids);
 
 	List<String> getRecommendProductIds(Long size);
+
+    Boolean removeRecommend(String productId);
+
+	Boolean setRecommend(String productId);
 }
 
