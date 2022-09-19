@@ -1,6 +1,7 @@
 package com.example.mall.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -37,6 +38,17 @@ public class RecommendProductController {
         return R.ok().setData(page);
     }
 
+    /**
+     * 获取size个推荐商品id  size为0或空返回所有
+     * @param size
+     * @return
+     */
+    @GetMapping("/getRecommend/{size}")
+    public R list(@PathVariable("size")Long size){
+        List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
+
+        return R.ok().setData(recommendProductIds);
+    }
 
     /**
      * 根据id查询信息
