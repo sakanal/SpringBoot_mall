@@ -61,7 +61,7 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 		if (size==null||new Long(0L).equals(size)){
 			return this.list();
 		}
-		List<ProductInfoEntity> list = this.list(new QueryWrapper<ProductInfoEntity>().last("limit " + size + " order by rand()"));
+		List<ProductInfoEntity> list = this.list(new QueryWrapper<ProductInfoEntity>().last(" order by rand()"+"limit " + size ));
 		return list;
 	}
 
