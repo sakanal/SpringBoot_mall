@@ -57,6 +57,15 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 	}
 
 	@Override
+	public List<ProductInfoEntity> getRandomProduct(Long size) {
+		if (size==null||new Long(0L).equals(size)){
+			return this.list();
+		}
+		List<ProductInfoEntity> list = this.list(new QueryWrapper<ProductInfoEntity>().last("limit " + size + " order by rand()"));
+		return list;
+	}
+
+	@Override
 	public List<ProductInfoEntity> randomGetRecommendProduct(Long size) {
 
 		return null;

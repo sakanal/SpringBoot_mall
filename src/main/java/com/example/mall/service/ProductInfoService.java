@@ -22,6 +22,8 @@ public interface ProductInfoService extends IService<ProductInfoEntity> {
 
 	List<ProductInfoEntity> getProductsByUserId(String id);
 
+	List<ProductInfoEntity> getRandomProduct(Long size);
+
     List<ProductInfoEntity> randomGetRecommendProduct(Long size);
 }
 
