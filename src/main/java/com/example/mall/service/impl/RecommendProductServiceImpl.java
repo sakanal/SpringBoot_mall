@@ -3,7 +3,11 @@ package com.example.mall.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -27,6 +31,21 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 	@Override
 	public void removeBatchByProductIds(String[] ids) {
 		this.remove(new QueryWrapper<RecommendProductEntity>().in("product_id",ids));
+	}
+
+	@Override
+	public List<String> getRecommendProductIds(Long size) {
+		List<String> list;
+		if (size==null||new Long(0L).equals(size)){
+			list=this.list().stream().map(item->{
+				return item.getProductId();
+			}).collect(Collectors.toList());
+			return list;
+		}
+		list=this.list(new QueryWrapper<RecommendProductEntity>().last("limit "+ size+" order by rand()")).stream().map(item->{
+			return item.getProductId();
+		}).collect(Collectors.toList());
+		return list;
 	}
 
 }
