@@ -70,7 +70,7 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 	public List<ProductInfoEntity> randomGetRecommendProduct(Long size) {
 		QueryWrapper<ProductInfoEntity> wrapper = new QueryWrapper<ProductInfoEntity>().eq("is_recommend", 1);
 		if (size != null && !new Long(0L).equals(size)) {
-			wrapper.last("limit " + size + " order by rand()");
+			wrapper.last("order by rand()"+" limit " + size);
 		}
 		List<ProductInfoEntity> list = this.list(wrapper);
 
