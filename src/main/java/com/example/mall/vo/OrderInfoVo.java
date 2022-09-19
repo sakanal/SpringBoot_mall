@@ -22,4 +22,6 @@ public class OrderInfoVo {
     private Double unitPrice;
     @ApiModelProperty("该商品的总价")
     private Double totalPrice;
+    @ApiModelProperty("订单地址")
+    private String addressId;
 }
