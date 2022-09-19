@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.ResultMessage;
+import com.example.mall.entity.ProductInfoEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -79,6 +80,19 @@ public class CategoryInfoController {
 			return R.ok().setData(categoryInfoEntity);
 		}else {
 			return R.error(ResultMessage.NO_RESULT_DATA);
+		}
+	}
+
+	@ApiOperation("根据类别id获取其下所有子类别的所有商品，分页,前端提供页量")
+	@GetMapping("/getProductByCatId/{current}/{size}/{catId}")
+	public R getProductByCatId(@PathVariable("current")Integer current,
+							   @PathVariable("size")Integer size,
+							   @PathVariable("catId")Long catId){
+		Page<ProductInfoEntity> page = categoryInfoService.getProductByCatId(current,size,catId);
+		if (page.getRecords().size()>0){
+			return R.ok().setData(page);
+		}else {
+			return R.error().setMessage("暂无数据");
 		}
 	}
 

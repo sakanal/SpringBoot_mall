@@ -3,6 +3,7 @@ package com.example.mall.service.impl;
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
+import com.example.mall.entity.ProductInfoEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -105,6 +106,11 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 		}
 		Collections.reverse(res);
 		return res;
+	}
+
+	@Override
+	public Page<ProductInfoEntity> getProductByCatId(Integer current, Integer size, Long catId) {
+		return null;
 	}
 
 	/**
