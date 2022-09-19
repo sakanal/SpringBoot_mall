@@ -17,9 +17,9 @@ public class OrderInfoVo {
     @ApiModelProperty("商品id")
     private String productId;
     @ApiModelProperty("该商品的数量")
-    private String productNumber;
+    private Integer productNumber;
     @ApiModelProperty("该商品的单价")
-    private Integer unitPrice;
+    private Double unitPrice;
     @ApiModelProperty("该商品的总价")
-    private Integer totalPrice;
+    private Double totalPrice;
 }
