@@ -69,6 +69,9 @@ public class ProductInfoEntity implements Serializable {
 	@ApiModelProperty("商家id")
 	private String userId;
 
+	@ApiModelProperty("是否推荐，0-不推荐，1-推荐，默认0（数据库层面）")
+	private Integer isRecommend;
+
 	/**
 	 * (冗余字段)
 	 * 用于记录订单详情的数量

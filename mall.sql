@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80028
 File Encoding         : 65001
 
-Date: 2022-09-18 09:36:34
+Date: 2022-09-19 08:14:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1531,12 +1531,17 @@ CREATE TABLE `product_info` (
   `picture` json DEFAULT NULL COMMENT '商品主图',
   `price` int DEFAULT NULL COMMENT '价格',
   `user_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '商家id',
+  `is_recommend` tinyint DEFAULT '0' COMMENT '0-不推荐，1-推荐',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of product_info
 -- ----------------------------
+INSERT INTO `product_info` VALUES ('1571512440636690434', '225', '	 【全力当天发货 顺丰包邮 抢先收藏加购】iPhone 14', '【全力当天发货 顺丰包邮 抢先收藏加购】iPhone 14全网通2022新品5G手机正品国行苹果14手机官方正品iphone \n品牌 Apple/苹果 Apple\n型号 iPhone 14 \n机身颜色 红色 午夜色 星光色 蓝色 紫色 \n操作系统 iOS \nCPU品牌 Apple/苹果', '[{\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/4a3dd980a2394de9ae8da91e5922cc70iPhone 14-1.jpg\", \"name\": \"iPhone 14-1.jpg\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/0f6600702dd94853928c5d8a9bd69b3biPhone 14-2.png\", \"name\": \"iPhone 14-2.png\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/6a3f5dfefd5440399fe8d2dee95b82ceiPhone 14-3.jpg\", \"name\": \"iPhone 14-3.jpg\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/0790a0c1238343d3984835eed4f2f7e0iPhone 14-4.jpg\", \"name\": \"iPhone 14-4.jpg\"}]', '5999', '1571383413791789057', '0');
+INSERT INTO `product_info` VALUES ('1571512642395295745', '225', '【新品全款预售】HUAWEI/华为Mate 50', '【新品全款预售】HUAWEI/华为Mate 50 直屏超光变XMAGE影像鸿蒙3.0拍照摄影游戏新款智能手机华为官方旗舰店\n\n品牌	 Huawei/华为\n华为型号	 MATE 50\nCPU核心数	 八核\n机身颜色	 曜金黑 冰霜银 流光紫 昆仑霞光 昆仑破晓\n手机类型	 智能手机\n操作系统	 HarmonyOS\nCPU品牌	 高通', '[{\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/23408dd9eb1445a4bc40641060fc0abeHUAWEI Mate50-1.jpg\", \"name\": \"HUAWEI Mate50-1.jpg\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/0ecfa3610f6848b1b65e8df1c20cb62dHUAWEI Mate50-2.jpg\", \"name\": \"HUAWEI Mate50-2.jpg\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/b2f11b4c8a8343fabe77c0b03e772d75HUAWEI Mate50-3.jpg\", \"name\": \"HUAWEI Mate50-3.jpg\"}, {\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/7f96cd48cb3e44f991cee0036a82bcefHUAWEI Mate50-4.jpg\", \"name\": \"HUAWEI Mate50-4.jpg\"}]', '4999', '1571383413791789057', '0');
+INSERT INTO `product_info` VALUES ('1571513000848904194', '225', '【24期免息】三星S22官方正品智能5G手机 Samsung Galaxy S22+ S22 Ultra S21', '【24期免息】三星S22官方正品智能5G手机 Samsung Galaxy S22+ S22 Ultra S21三星官方旗店Flip Fold3 W22\n\n品牌	 Samsung/三星\n三星型号	 Galaxy S22 5G SM-S9010\nCPU核心数	 八核\n机身颜色	 羽梦白 曜夜黑 雾松绿 浮光粉 幽紫秘境\n手机类型	 智能手机\n操作系统	 Android/安卓\nCPU品牌	 高通', '[{\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/57b6cdc44c5d4854be96da1cfcb5ed06三星S22官方正品智能5G手机.jpg\", \"name\": \"三星S22官方正品智能5G手机.jpg\"}]', '4399', '1571383413791789057', '0');
+INSERT INTO `product_info` VALUES ('1571513904490729473', '225', '预定送荣耀原装耳机+碎屏保 HONOR/荣耀X40 5G手机官方旗舰店官网新款正品智能老人学生千元X30直降x40i手机', '预定送荣耀原装耳机+碎屏保 HONOR/荣耀X40 5G手机官方旗舰店官网新款正品智能老人学生千元X30直降x40i手机 \n预定送荣耀原装耳机！ 官方正品 全国联保 \n品牌	 honor/荣耀\n型号	 X40\n机身颜色	 幻夜黑 彩云追月 墨玉青\n手机类型	 以官网为准\nCPU品牌	 以官网为准', '[{\"url\": \"https://mall-sakanal.oss-cn-hangzhou.aliyuncs.com/2022/09/18/567970fd90224644a5ded3d2e59994bb荣耀X40.jpg\", \"name\": \"荣耀X40.jpg\"}]', '1499', '1571383413791789057', '0');
 
 -- ----------------------------
 -- Table structure for recommend_product
@@ -1594,3 +1599,4 @@ CREATE TABLE `user_info` (
 -- Records of user_info
 -- ----------------------------
 INSERT INTO `user_info` VALUES ('1570803219746017281', 'sakanal', '123456', '18870493682', '1104820805@qq.com', '0', '0', '2022-09-16 23:54:06', '2022-09-16 23:54:06', '0');
+INSERT INTO `user_info` VALUES ('1571383413791789057', '商家', '123', '12345678955', '11048205805@qq.com', '0', '1', '2022-09-18 14:19:35', '2022-09-18 14:19:35', '0');
