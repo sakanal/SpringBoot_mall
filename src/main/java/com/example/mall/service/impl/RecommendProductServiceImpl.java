@@ -2,6 +2,8 @@ package com.example.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
+import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.service.ProductInfoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,13 @@ import com.example.mall.dao.RecommendProductDao;
 import com.example.mall.entity.RecommendProductEntity;
 import com.example.mall.service.RecommendProductService;
 
+import javax.annotation.Resource;
+
 
 @Service("recommendProductService")
 public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao, RecommendProductEntity> implements RecommendProductService {
+	@Resource
+	private ProductInfoService productInfoService;
 
     @Override
     public Page<RecommendProductEntity> getPage(Map<String, Object> params) {
@@ -46,6 +52,22 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 			return item.getProductId();
 		}).collect(Collectors.toList());
 		return list;
+	}
+
+	@Override
+	public Boolean removeRecommend(String productId) {
+		ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+		productInfoEntity.setIsRecommend(0);
+		productInfoEntity.setId(productId);
+		return productInfoService.updateById(productInfoEntity);
+	}
+
+	@Override
+	public Boolean setRecommend(String productId) {
+		ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+		productInfoEntity.setIsRecommend(1);
+		productInfoEntity.setId(productId);
+		return productInfoService.updateById(productInfoEntity);
 	}
 
 }

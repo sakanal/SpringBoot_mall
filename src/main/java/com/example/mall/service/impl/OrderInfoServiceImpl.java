@@ -56,6 +56,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		return orderInfoEntity;
 	}
 
+	@Override
+	public List<OrderInfoEntity> getProductsByUserId(String id) {
+		return this.list(new QueryWrapper<OrderInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
+	}
+
 	private Integer getOrderProductNumber(String id, List<OrderProductEntity> orderProdectList) {
 		for (OrderProductEntity orderProductEntity : orderProdectList) {
 			if (orderProductEntity.getId().equals(id)){
