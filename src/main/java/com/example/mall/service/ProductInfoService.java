@@ -21,5 +21,7 @@ public interface ProductInfoService extends IService<ProductInfoEntity> {
 	Page<ProductInfoEntity> getPage(Integer current, ProductQuery productQuery);
 
 	List<ProductInfoEntity> getProductsByUserId(String id);
+
+	List<ProductInfoEntity> getRandomProduct(Long size);
 }
 

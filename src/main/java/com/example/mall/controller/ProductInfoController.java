@@ -48,6 +48,18 @@ public class ProductInfoController {
 	@Autowired
 	private CartInfoService cartInfoService;
 
+	/**
+	 * 随机获取商品
+	 * @param size
+	 * @return
+	 */
+	@ApiOperation("随机获取商品")
+	@PostMapping("/getRandomProduct/{size}")
+	public R pageFind(@PathVariable("size") Long size) {
+		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
+
+		return R.ok().setData(list);
+	}
 
 	@ApiOperation("根据商家id查询所有商品")
 	@PostMapping("/listProduct/{id}")
@@ -93,15 +105,16 @@ public class ProductInfoController {
 
 		return R.ok().setData(productInfo);
 	}
+
 	@ApiOperation("根据商品类别id，获取商品信息列表")
 	@GetMapping("/getByCategoryId/{current}/{catId}")
-	public R getByCategoryId(@PathVariable("current")Integer current,
-							 @PathVariable("catId")Long catId){
+	public R getByCategoryId(@PathVariable("current") Integer current,
+							 @PathVariable("catId") Long catId) {
 		Page<ProductInfoEntity> listPage = new Page<>(current, SelectArg.PAGESIZE);
-		productInfoService.page(listPage,new QueryWrapper<ProductInfoEntity>().eq("cat_id", catId));
-		if (listPage.getRecords().size()>0){
+		productInfoService.page(listPage, new QueryWrapper<ProductInfoEntity>().eq("cat_id", catId));
+		if (listPage.getRecords().size() > 0) {
 			return R.ok().setData(listPage);
-		}else {
+		} else {
 			return R.error().setMessage("暂无数据");
 		}
 	}
@@ -121,17 +134,17 @@ public class ProductInfoController {
 		return R.ok();
 	}
 
-    /**
-     * 修改
-     */
-    @PutMapping("/update")
-    public R update(@RequestBody ProductInfoEntity productInfo){
-        List<PictureVo> pictureList = productInfo.getPictureList();
-        if (pictureList.size()>0){
-            String str = JSONUtil.toJsonStr(pictureList);
-            productInfo.setPicture(str);
-        }
-        log.info(String.valueOf(pictureList));
+	/**
+	 * 修改
+	 */
+	@PutMapping("/update")
+	public R update(@RequestBody ProductInfoEntity productInfo) {
+		List<PictureVo> pictureList = productInfo.getPictureList();
+		if (pictureList.size() > 0) {
+			String str = JSONUtil.toJsonStr(pictureList);
+			productInfo.setPicture(str);
+		}
+		log.info(String.valueOf(pictureList));
 		productInfoService.updateById(productInfo);
 
 		return R.ok();
