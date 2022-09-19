@@ -62,7 +62,7 @@ public class ProductInfoEntity implements Serializable {
 	 * 价格
 	 */
 	@ApiModelProperty("价格")
-	private Integer price;
+	private Double price;
 	/**
 	 * 商家id
 	 */

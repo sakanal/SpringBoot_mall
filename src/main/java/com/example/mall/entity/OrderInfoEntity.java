@@ -80,7 +80,7 @@ public class OrderInfoEntity implements Serializable {
 	 *
 	 */
 	@ApiModelProperty("地址id")
-	private Integer addressId;
+	private String addressId;
 
 	@TableField(exist = false)
 	List<ProductInfoEntity> productList;

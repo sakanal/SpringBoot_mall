@@ -1,9 +1,11 @@
 package com.example.mall.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.constant.ResultMessage;
 import com.example.mall.entity.OrderInfoEntity;
 import com.example.mall.service.OrderInfoService;
 import com.example.mall.service.OrderProductService;
+import com.example.mall.vo.OrderInfoVo;
 import com.example.mall.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,8 +66,11 @@ public class OrderInfoController {
      * 保存
      */
     @PostMapping("/save")
-    public R save(@RequestBody OrderInfoEntity orderInfo){
-		orderInfoService.save(orderInfo);
+    public R save(@RequestBody List<OrderInfoVo> orderInfoList){
+        if (orderInfoList.size()<1){
+            return R.error(ResultMessage.NO_PARAMETERS);
+        }
+		orderInfoService.saveOrder(orderInfoList);
 
         return R.ok();
     }

@@ -1,6 +1,5 @@
 package com.example.mall.controller;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -73,7 +72,7 @@ public class OrderProductController {
      */
     @DeleteMapping("/delete")
     public R delete(@RequestBody String[] ids){
-		orderProductService.removeByIds(Arrays.asList(ids));
+		orderProductService.removeByOrderIds(ids);
 
         return R.ok();
     }
