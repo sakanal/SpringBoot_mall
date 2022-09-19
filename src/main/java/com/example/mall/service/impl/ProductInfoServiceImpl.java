@@ -53,8 +53,7 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 
 	@Override
 	public List<ProductInfoEntity> getProductsByUserId(String id) {
-		this.list(new QueryWrapper<ProductInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
-		return null;
+		return this.list(new QueryWrapper<ProductInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
 	}
 
 }
