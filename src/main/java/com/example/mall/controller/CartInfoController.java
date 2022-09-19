@@ -80,10 +80,10 @@ public class CartInfoController {
     /**
      * 修改
      */
-    @ApiOperation("根据id修改")
+    @ApiOperation("根据商品id修改商品数量")
     @PutMapping("/update")
     public R update(@RequestBody CartInfoEntity cartInfo){
-		cartInfoService.updateById(cartInfo);
+		cartInfoService.updateByUserId(cartInfo);
 
         return R.ok();
     }

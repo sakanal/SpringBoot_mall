@@ -21,5 +21,7 @@ public interface CartInfoService extends IService<CartInfoEntity> {
     void removeByProductIds(String[] ids);
 
 	List<ProductInfoEntity> getProductByUserId(String userId);
+
+	void updateByUserId(CartInfoEntity cartInfo);
 }
 

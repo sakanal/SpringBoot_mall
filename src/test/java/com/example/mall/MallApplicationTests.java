@@ -7,6 +7,7 @@ import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.CategoryInfoEntity;
 import com.example.mall.service.CategoryInfoService;
 import com.example.mall.service.MessageSendService;
+import com.example.mall.service.impl.CartInfoServiceImpl;
 import com.example.mall.vo.R;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ class MallApplicationTests {
 	private MessageSendService messageSendService;
 	@Autowired
 	CategoryInfoController categoryInfoController;
-
+	@Autowired
+	private CartInfoServiceImpl cartInfoService;
 	@Test
 	void contextLoads() {
 //		System.out.println(IdWorker.get32UUID()+Thread.currentThread().getName());
@@ -56,8 +58,13 @@ class MallApplicationTests {
 
 	@Test
 	void test(){
-		R typePath = categoryInfoController.getTypePath(1000L);
-		System.out.println(typePath.toString());
+//		R typePath = categoryInfoController.getTypePath(1000L);
+//		System.out.println(typePath.toString());
+		CartInfoEntity cartInfoEntity = new CartInfoEntity();
+		cartInfoEntity.setUserId("666");
+		cartInfoEntity.setProductId("7777");
+		cartInfoEntity.setNumber(7);
+		cartInfoService.updateByUserId(cartInfoEntity);
 	}
 
 

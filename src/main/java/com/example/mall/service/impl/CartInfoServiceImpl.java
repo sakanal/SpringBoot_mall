@@ -1,5 +1,6 @@
 package com.example.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.entity.ProductInfoEntity;
@@ -52,6 +53,14 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 			return item;
 		}).collect(Collectors.toList());
 		return productInfoEntities;
+	}
+
+	@Override
+	public void updateByUserId(CartInfoEntity cartInfo) {
+		this.update(cartInfo,
+				new UpdateWrapper<CartInfoEntity>()
+						.eq("user_id",cartInfo.getUserId())
+						.eq("product_id",cartInfo.getProductId()));
 	}
 
 	private Integer getProductNumber(String id, List<CartInfoEntity> cartInfoEntities) {
