@@ -1,9 +1,13 @@
 package com.example.mall.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.constant.ResultMessage;
+import com.example.mall.entity.ProductInfoEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,17 +43,28 @@ public class CartInfoController {
         return R.ok().setData(page);
     }
 
+    @ApiOperation("根据用户Id获取该用户的购物车信息")
+    @GetMapping("/getCateInfoByUserId/{userId}")
+    public R list(@PathVariable("userId") String userId){
+        if (StrUtil.isBlank(userId)){
+            return R.error(ResultMessage.NO_PARAMETERS);
+        }
+        List<ProductInfoEntity> list = cartInfoService.getProductByUserId(userId);
 
-    /**
+        return R.ok().setData(list);
+    }
+
+
+/*    *//**
      * 根据id查询信息
-     */
+     *//*
     @ApiOperation("根据id查询信息")
     @GetMapping("/info/{id}")
     public R info(@PathVariable("id") String id){
 		CartInfoEntity cartInfo = cartInfoService.getById(id);
 
         return R.ok().setData(cartInfo);
-    }
+    }*/
 
     /**
      * 保存
