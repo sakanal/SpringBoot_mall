@@ -4,6 +4,8 @@ import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.service.ProductInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,9 +18,14 @@ import com.example.mall.dao.CategoryInfoDao;
 import com.example.mall.entity.CategoryInfoEntity;
 import com.example.mall.service.CategoryInfoService;
 
+import javax.print.attribute.standard.PresentationDirection;
+
 
 @Service("categoryInfoService")
 public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, CategoryInfoEntity> implements CategoryInfoService {
+
+	@Autowired
+	private ProductInfoService productInfoService;
 
     @Override
     public Page<CategoryInfoEntity> getPage(Map<String, Object> params) {
@@ -108,10 +115,34 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 		return res;
 	}
 
+	/**
+	 * 分页获取catId及子类以下的所有商品
+	 * @param current
+	 * @param size
+	 * @param catId
+	 * @return
+	 */
 	@Override
 	public Page<ProductInfoEntity> getProductByCatId(Integer current, Integer size, Long catId) {
-		return null;
+		ArrayList<Long> catIds = new ArrayList<>();
+		catIds.add(catId);
+		getChildCatIds(catId,catIds);
+		Page<ProductInfoEntity> pageInfo = new Page<>(current, size);
+		Page<ProductInfoEntity> page = productInfoService.page(pageInfo, new QueryWrapper<ProductInfoEntity>().in("type", catIds));
+		return page;
 	}
+
+	private void getChildCatIds(Long catId,List res){
+		if (this.count(new QueryWrapper<CategoryInfoEntity>().eq("parent_cid",catId))<1){
+			return;
+		}
+		List<CategoryInfoEntity> list = this.list(new QueryWrapper<CategoryInfoEntity>().eq("parent_cid", catId));
+		for (CategoryInfoEntity item : list) {
+			res.add(item.getCatId());
+			getChildCatIds(item.getCatId(),res);
+		}
+	}
+
 
 	/**
 	 * 查出所有菜单的子菜单

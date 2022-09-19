@@ -60,11 +60,12 @@ class MallApplicationTests {
 	void test(){
 //		R typePath = categoryInfoController.getTypePath(1000L);
 //		System.out.println(typePath.toString());
-		CartInfoEntity cartInfoEntity = new CartInfoEntity();
+		/*CartInfoEntity cartInfoEntity = new CartInfoEntity();
 		cartInfoEntity.setUserId("666");
 		cartInfoEntity.setProductId("7777");
 		cartInfoEntity.setNumber(7);
-		cartInfoService.updateByUserId(cartInfoEntity);
+		cartInfoService.updateByUserId(cartInfoEntity);*/
+		categoryInfoService.getProductByCatId(1,2,15L);
 	}
 
 
