@@ -1,17 +1,18 @@
 package com.example.mall.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.entity.OrderInfoEntity;
+import com.example.mall.service.OrderInfoService;
 import com.example.mall.service.OrderProductService;
+import com.example.mall.vo.R;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mall.entity.OrderInfoEntity;
-import com.example.mall.service.OrderInfoService;
-import com.example.mall.vo.R;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -29,6 +30,14 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService;
     @Autowired
     private OrderProductService orderProductService;
+
+    @ApiOperation("根据用户id查询所有订单")
+    @PostMapping("/listOrder/{id}")
+    public R pageFind(@PathVariable("id") String id) {
+        List<OrderInfoEntity> list = orderInfoService.getProductsByUserId(id);
+
+        return R.ok().setData(list);
+    }
 
     /**
      * 列表
