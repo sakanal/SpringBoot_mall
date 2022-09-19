@@ -8,7 +8,9 @@ import java.util.Map;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.constant.SelectArg;
 import com.example.mall.vo.PictureVo;
 import com.example.mall.entity.ProductInfoEntity;
 import com.example.mall.service.CartInfoService;
@@ -91,6 +93,18 @@ public class ProductInfoController {
 
 		return R.ok().setData(productInfo);
 	}
+	@ApiOperation("根据商品类别id，获取商品信息列表")
+	@GetMapping("/getByCategoryId/{current}/{catId}")
+	public R getByCategoryId(@PathVariable("current")Integer current,
+							 @PathVariable("catId")Long catId){
+		Page<ProductInfoEntity> listPage = new Page<>(current, SelectArg.PAGESIZE);
+		productInfoService.page(listPage,new QueryWrapper<ProductInfoEntity>().eq("cat_id", catId));
+		if (listPage.getRecords().size()>0){
+			return R.ok().setData(listPage);
+		}else {
+			return R.error().setMessage("暂无数据");
+		}
+	}
 
 	/**
 	 * 保存
@@ -107,11 +121,17 @@ public class ProductInfoController {
 		return R.ok();
 	}
 
-	/**
-	 * 修改
-	 */
-	@PutMapping("/update")
-	public R update(@RequestBody ProductInfoEntity productInfo) {
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public R update(@RequestBody ProductInfoEntity productInfo){
+        List<PictureVo> pictureList = productInfo.getPictureList();
+        if (pictureList.size()>0){
+            String str = JSONUtil.toJsonStr(pictureList);
+            productInfo.setPicture(str);
+        }
+        log.info(String.valueOf(pictureList));
 		productInfoService.updateById(productInfo);
 
 		return R.ok();
