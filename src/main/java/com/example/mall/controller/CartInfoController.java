@@ -91,10 +91,10 @@ public class CartInfoController {
     /**
      * 删除
      */
-    @ApiOperation("根据id删除")
+    @ApiOperation("根据商品id删除购物车加购商品")
     @DeleteMapping("/delete")
     public R delete(@RequestBody String[] ids){
-		cartInfoService.removeByIds(Arrays.asList(ids));
+		cartInfoService.removeByProductIds(ids);
 
         return R.ok();
     }
