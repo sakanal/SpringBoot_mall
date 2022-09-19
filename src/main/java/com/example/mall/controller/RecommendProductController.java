@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,6 +89,19 @@ public class RecommendProductController {
 		recommendProductService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @ApiOperation("根据商品id设置推荐商品")
+    @PutMapping("/setRecommend/{productId}")
+    public R setRecommend(@PathVariable("productId")String productId){
+        Boolean result = recommendProductService.setRecommend(productId);
+        return result?R.ok():R.error();
+    }
+    @ApiOperation("根据商品id取消推荐商品")
+    @PutMapping("/removeRecommend/{productId}")
+    public R removeRecommend(@PathVariable("productId")String productId){
+        Boolean result = recommendProductService.removeRecommend(productId);
+        return result?R.ok():R.error();
     }
 
 }
