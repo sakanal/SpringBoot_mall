@@ -1,6 +1,5 @@
 package com.example.mall.service.impl;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.entity.ProductInfoEntity;

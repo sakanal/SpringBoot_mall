@@ -2,6 +2,7 @@ package com.example.mall;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.controller.CategoryInfoController;
+import com.example.mall.controller.LoginController;
 import com.example.mall.dao.CartInfoDao;
 import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.CategoryInfoEntity;
@@ -28,6 +29,8 @@ class MallApplicationTests {
 	CategoryInfoController categoryInfoController;
 	@Autowired
 	private CartInfoServiceImpl cartInfoService;
+	@Autowired
+	private LoginController loginController;
 	@Test
 	void contextLoads() {
 //		System.out.println(IdWorker.get32UUID()+Thread.currentThread().getName());
@@ -65,7 +68,8 @@ class MallApplicationTests {
 		cartInfoEntity.setProductId("7777");
 		cartInfoEntity.setNumber(7);
 		cartInfoService.updateByUserId(cartInfoEntity);*/
-		categoryInfoService.getProductByCatId(1,2,15L);
+//		categoryInfoService.getProductByCatId(1,2,15L);
+		loginController.getMessageCode("2501947461@qq.com");
 	}
 
 

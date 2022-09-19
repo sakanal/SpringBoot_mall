@@ -18,6 +18,9 @@ spring:
       max-request-size: 100MB
       max-file-size: 20MB
 
+  redis:
+    host: localhost
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
