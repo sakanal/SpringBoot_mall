@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.service.ProductInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.example.mall.entity.RecommendProductEntity;
 import com.example.mall.service.RecommendProductService;
 import com.example.mall.vo.R;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -28,6 +31,8 @@ import com.example.mall.vo.R;
 public class RecommendProductController {
     @Autowired
     private RecommendProductService recommendProductService;
+    @Resource
+    private ProductInfoService productInfoService;
 
     /**
      * 列表
@@ -47,6 +52,7 @@ public class RecommendProductController {
     @GetMapping("/getRecommend/{size}")
     public R list(@PathVariable("size")Long size){
         List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
+        List<ProductInfoEntity> productInfoEntityList = productInfoService.randomGetRecommendProduct(size);
 
         return R.ok().setData(recommendProductIds);
     }

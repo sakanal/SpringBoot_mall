@@ -56,4 +56,10 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 		return this.list(new QueryWrapper<ProductInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
 	}
 
+	@Override
+	public List<ProductInfoEntity> randomGetRecommendProduct(Long size) {
+
+		return null;
+	}
+
 }
