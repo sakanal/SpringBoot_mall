@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.entity.ProductInfoEntity;
 import com.example.mall.service.ProductInfoService;
+import com.example.mall.vo.PictureVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +54,15 @@ public class RecommendProductController {
      */
     @GetMapping("/getRecommend/{size}")
     public R list(@PathVariable("size")Long size){
-        List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
+//        List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
         List<ProductInfoEntity> productInfoEntityList = productInfoService.randomGetRecommendProduct(size);
-
-        return R.ok().setData(recommendProductIds);
+        for (ProductInfoEntity productInfo : productInfoEntityList) {
+            String picture = productInfo.getPicture();
+            JSONArray jsonArray = JSONUtil.parseArray(picture);
+            List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+            productInfo.setPictureList(pictureVos);
+        }
+        return R.ok().setData(productInfoEntityList);
     }
 
     /**

@@ -57,6 +57,12 @@ public class ProductInfoController {
 	@PostMapping("/getRandomProduct/{size}")
 	public R pageFind(@PathVariable("size") Long size) {
 		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
+		for (ProductInfoEntity productInfo : list) {
+			String picture = productInfo.getPicture();
+			JSONArray jsonArray = JSONUtil.parseArray(picture);
+			List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+			productInfo.setPictureList(pictureVos);
+		}
 
 		return R.ok().setData(list);
 	}
