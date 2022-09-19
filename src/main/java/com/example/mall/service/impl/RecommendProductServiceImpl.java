@@ -48,7 +48,7 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 			}).collect(Collectors.toList());
 			return list;
 		}
-		list=this.list(new QueryWrapper<RecommendProductEntity>().last("limit "+ size+" order by rand()")).stream().map(item->{
+		list=this.list(new QueryWrapper<RecommendProductEntity>().last(" order by rand()"+"limit "+ size)).stream().map(item->{
 			return item.getProductId();
 		}).collect(Collectors.toList());
 		return list;
