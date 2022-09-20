@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.ResultMessage;
 import com.example.mall.entity.ProductInfoEntity;
@@ -97,6 +98,15 @@ public class CartInfoController {
 		cartInfoService.removeByProductIds(ids);
 
         return R.ok();
+    }
+
+    @ApiOperation("根据用户id和商品id获取该用户在购物车中拥有的该商品的数量")
+    @GetMapping("/count/{userId}/{productId}")
+    public R haveProductByUserAndProductId(@PathVariable("userId")String userId,
+                                           @PathVariable("productId")String productId){
+        QueryWrapper<CartInfoEntity> queryWrapper = new QueryWrapper<CartInfoEntity>().eq("user_id", userId).eq("product_id", productId);
+        long count = cartInfoService.count(queryWrapper);
+        return count>0?R.error():R.ok();
     }
 
 }

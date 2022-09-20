@@ -57,10 +57,20 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 
 	@Override
 	public void updateByUserId(CartInfoEntity cartInfo) {
-		this.update(cartInfo,
-				new UpdateWrapper<CartInfoEntity>()
-						.eq("user_id",cartInfo.getUserId())
-						.eq("product_id",cartInfo.getProductId()));
+		String userId = cartInfo.getUserId();
+		String productId = cartInfo.getProductId();
+		Integer number = cartInfo.getNumber();
+		QueryWrapper<CartInfoEntity> queryWrapper = new QueryWrapper<CartInfoEntity>()
+				.eq("user_id", userId)
+				.eq("product_id", productId)
+				.select("number");
+		CartInfoEntity cartInfoEntity = this.getOne(queryWrapper);
+		if (cartInfoEntity.getNumber()>0){
+			cartInfo.setNumber(cartInfoEntity.getNumber()+number);
+		}
+		this.update(cartInfo, new UpdateWrapper<CartInfoEntity>()
+				.eq("user_id",userId)
+				.eq("product_id",productId));
 	}
 
 	private Integer getProductNumber(String id, List<CartInfoEntity> cartInfoEntities) {
