@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -49,14 +50,15 @@ public class ProductInfoController {
 	 */
 	@ApiOperation("随机获取商品")
 	@PostMapping("/getRandomProduct/{size}")
+	@Cacheable(value = "Product",key = "randomProduct")
 	public R pageFind(@PathVariable("size") Long size) {
 		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
-		for (ProductInfoEntity productInfo : list) {
-			String picture = productInfo.getPicture();
-			JSONArray jsonArray = JSONUtil.parseArray(picture);
-			List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-			productInfo.setPictureList(pictureVos);
-		}
+//		for (ProductInfoEntity productInfo : list) {
+//			String picture = productInfo.getPicture();
+//			JSONArray jsonArray = JSONUtil.parseArray(picture);
+//			List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+//			productInfo.setPictureList(pictureVos);
+//		}
 
 		return R.ok().setData(list);
 	}
@@ -98,10 +100,10 @@ public class ProductInfoController {
 	@GetMapping("/info/{id}")
 	public R info(@PathVariable("id") String id) {
 		ProductInfoEntity productInfo = productInfoService.getById(id);
-		String picture = productInfo.getPicture();
-		JSONArray jsonArray = JSONUtil.parseArray(picture);
-		List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-		productInfo.setPictureList(pictureVos);
+//		String picture = productInfo.getPicture();
+//		JSONArray jsonArray = JSONUtil.parseArray(picture);
+//		List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+//		productInfo.setPictureList(pictureVos);
 
 		return R.ok().setData(productInfo);
 	}

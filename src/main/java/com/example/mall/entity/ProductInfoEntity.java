@@ -1,5 +1,7 @@
 package com.example.mall.entity;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -78,4 +80,10 @@ public class ProductInfoEntity implements Serializable {
 	 */
 	@TableField(exist = false)
 	private Integer number;
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+		JSONArray jsonArray = JSONUtil.parseArray(picture);
+		this.pictureList = JSONUtil.toList(jsonArray, PictureVo.class);
+	}
 }

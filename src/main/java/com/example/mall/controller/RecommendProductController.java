@@ -13,6 +13,7 @@ import com.example.mall.vo.PictureVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.mall.entity.RecommendProductEntity;
@@ -53,15 +54,16 @@ public class RecommendProductController {
      * @return
      */
     @GetMapping("/getRecommend/{size}")
+    @Cacheable(value = "Product",key = "randomRecommendProduct")
     public R list(@PathVariable("size")Long size){
 //        List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
         List<ProductInfoEntity> productInfoEntityList = productInfoService.randomGetRecommendProduct(size);
-        for (ProductInfoEntity productInfo : productInfoEntityList) {
-            String picture = productInfo.getPicture();
-            JSONArray jsonArray = JSONUtil.parseArray(picture);
-            List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-            productInfo.setPictureList(pictureVos);
-        }
+//        for (ProductInfoEntity productInfo : productInfoEntityList) {
+//            String picture = productInfo.getPicture();
+//            JSONArray jsonArray = JSONUtil.parseArray(picture);
+//            List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
+//            productInfo.setPictureList(pictureVos);
+//        }
         return R.ok().setData(productInfoEntityList);
     }
 
