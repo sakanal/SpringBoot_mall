@@ -1,10 +1,13 @@
 package com.example.mall.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +33,7 @@ public class UserAddressController {
     /**
      * 列表
      */
-    @GetMapping("/list")
+    @GetMapping("/Alist")
     public R list(@RequestParam Map<String, Object> params){
         Page<UserAddressEntity> page = userAddressService.getPage(params);
 
@@ -47,10 +50,21 @@ public class UserAddressController {
 
         return R.ok().setData(userAddress);
     }
+    @ApiOperation("根据用户id获取该用户的所有收货地址")
+    @GetMapping("/list/{userId}")
+    public R getAddressListByUserId(@PathVariable("userId")String userId){
+        List<UserAddressEntity> list = userAddressService.list(new QueryWrapper<UserAddressEntity>().eq("user_id", userId));
+        if (list.size()>0){
+            return R.ok().setData(list);
+        }else {
+            return R.error().setMessage("暂无收货地址");
+        }
+    }
 
     /**
      * 保存
      */
+    @ApiOperation("添加用户的收货地址")
     @PostMapping("/save")
     public R save(@RequestBody UserAddressEntity userAddress){
 		userAddressService.save(userAddress);
@@ -61,6 +75,7 @@ public class UserAddressController {
     /**
      * 修改
      */
+    @ApiOperation("修改用户的收货地址")
     @PutMapping("/update")
     public R update(@RequestBody UserAddressEntity userAddress){
 		userAddressService.updateById(userAddress);
