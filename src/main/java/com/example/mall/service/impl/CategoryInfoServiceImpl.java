@@ -127,7 +127,7 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 		catIds.add(catId);
 		getChildCatIds(catId,catIds);
 		Page<ProductInfoEntity> pageInfo = new Page<>(current, size);
-		Page<ProductInfoEntity> page = productInfoService.page(pageInfo, new QueryWrapper<ProductInfoEntity>().in("type", catIds));
+		Page<ProductInfoEntity> page = productInfoService.page(pageInfo, new QueryWrapper<ProductInfoEntity>().in("cat_id", catIds));
 		return page;
 	}
 
