@@ -28,18 +28,21 @@ public class R {
 
     public static R ok(){
         R r = new R();
+        r.success = true;
         r.code = ResultMessage.SUCCESS.getCode();
         r.message = ResultMessage.SUCCESS.getMessage();
         return r;
     }
     public static R error(){
         R r = new R();
+        r.success = false;
         r.code=ResultMessage.ERROR.getCode();
         r.message=ResultMessage.ERROR.getMessage();
         return r;
     }
     public static R error(ResultMessage rs){
         R r = new R();
+        r.success = false;
         r.code=rs.getCode();
         r.message=rs.getMessage();
         return r;
