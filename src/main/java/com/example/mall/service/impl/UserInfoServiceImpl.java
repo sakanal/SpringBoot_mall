@@ -4,11 +4,18 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.exception.MyException;
+import com.example.mall.utils.JwtUtil;
 import com.example.mall.vo.UserInfoQuery;
+import com.example.mall.vo.UserLoginVo;
+import com.example.mall.vo.UserPasswordVo;
+import com.example.mall.vo.UserRegisterVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -59,26 +66,70 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 	}
 
 	@Override
-	public boolean addUser(UserInfoEntity user) {
-		user.setCreateTime(new Date());
+	public boolean addUser(UserRegisterVo user) {
 		QueryWrapper<UserInfoEntity> wrapper = new QueryWrapper<>();
 		wrapper.eq(user.getUserName()!=null,"username",user.getUserName())
-				.or().eq(user.getEmail()!=null,"email",user.getEmail())
-				.or().eq(user.getMobile()!=null,"mobile",user.getMobile());
+				.or().eq(user.getEmail()!=null,"email",user.getEmail());
 		if (this.count(wrapper)>0) {
 			return false;
 		}
-		boolean success = this.save(user);
-		return success;
+		UserInfoEntity userInfoEntity = new UserInfoEntity();
+		BeanUtils.copyProperties(user,userInfoEntity);
+		return this.save(userInfoEntity);
 	}
 
 	@Override
-	public boolean index(UserInfoEntity user) {
-		if (StrUtil.isBlank(user.getPassword())||StrUtil.isBlank(user.getEmail())){
-			return false;
+	public String login(UserLoginVo userLoginVo) {
+		if (userLoginVo!=null){
+			String email = userLoginVo.getEmail();
+			String password = userLoginVo.getPassword();
+			if (!StringUtils.hasText(email)){
+				throw new MyException(20001,"登录邮箱为空");
+			}
+			if (!StringUtils.hasText(password)){
+				throw new MyException(20001,"登录密码为空");
+			}
+			QueryWrapper<UserInfoEntity> queryWrapper = new QueryWrapper<UserInfoEntity>().eq("email", email);
+			UserInfoEntity userInfo = this.getOne(queryWrapper);
+			if (userInfo==null){
+				throw new MyException(20001,"用户不存在");
+			}
+			if (Objects.equals(userInfo.getPassword(), password)){
+				if (userInfo.getIsDelete() != 0){
+					throw new MyException(20001,"用户无效");
+				}else {
+					return JwtUtil.getUserJwtToken(userInfo.getId(),userInfo.getUserName());
+				}
+			}else {
+				throw new MyException(20001,"密码错误");
+			}
+
+		}else {
+			throw new MyException(20001,"登录信息为空");
 		}
-		long count = this.count(new QueryWrapper<UserInfoEntity>().eq("password", user.getPassword()).eq("email", user.getEmail()).last(" limit 1"));
-		return count>0;
+	}
+
+	@Override
+	public String updatePassword(UserPasswordVo userPasswordVo) {
+		String userId = userPasswordVo.getUserId();
+		String password = userPasswordVo.getPassword();
+		String newPassword = userPasswordVo.getNewPassword();
+		QueryWrapper<UserInfoEntity> checkQueryWrapper = new QueryWrapper<UserInfoEntity>().eq("id", userId).eq("password", password);
+		long count = this.count(checkQueryWrapper);
+		if (count == 1){
+			UserInfoEntity userInfoEntity = new UserInfoEntity();
+			userInfoEntity.setId(userId);
+			userInfoEntity.setPassword(newPassword);
+			boolean update = this.updateById(userInfoEntity);
+			if (update){
+				UserInfoEntity userInfo = this.getById(userId);
+				return JwtUtil.getUserJwtToken(userInfo.getId(), userInfo.getUserName());
+			}else {
+				throw new MyException(20001,"修改失败");
+			}
+		}else {
+			throw new MyException(20001,"密码错误，无法修改");
+		}
 	}
 
 }

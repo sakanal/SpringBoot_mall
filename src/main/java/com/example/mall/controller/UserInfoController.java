@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.ResultMessage;
 import com.example.mall.vo.UserInfoQuery;
+import com.example.mall.vo.UserPasswordVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,17 @@ public class UserInfoController {
 		userInfoService.updateById(userInfo);
 
         return R.ok();
+    }
+
+    @ApiOperation("修改密码")
+    @PutMapping("/updatePassword")
+    public R updatePassword(@RequestBody UserPasswordVo userPasswordVo){
+        String token = userInfoService.updatePassword(userPasswordVo);
+        if (token!=null){
+            return R.ok().setData(token);
+        }else {
+            return R.error().setMessage("修改密码失败");
+        }
     }
 
     /**

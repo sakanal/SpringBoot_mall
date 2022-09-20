@@ -10,6 +10,7 @@ import com.example.mall.service.CategoryInfoService;
 import com.example.mall.service.MessageSendService;
 import com.example.mall.service.impl.CartInfoServiceImpl;
 import com.example.mall.vo.R;
+import com.example.mall.vo.UserRegisterVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,7 +70,9 @@ class MallApplicationTests {
 		cartInfoEntity.setNumber(7);
 		cartInfoService.updateByUserId(cartInfoEntity);*/
 //		categoryInfoService.getProductByCatId(1,2,15L);
-		loginController.getMessageCode("2501947461@qq.com");
+		UserRegisterVo userRegisterVo = new UserRegisterVo();
+		userRegisterVo.setEmail("2501947461@qq.com");
+		loginController.getMessageCode(userRegisterVo);
 	}
 
 
