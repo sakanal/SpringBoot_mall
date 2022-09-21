@@ -49,6 +49,9 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 		List<String> productIds = cartInfoEntities.stream().map(item -> {
 			return item.getProductId();
 		}).collect(Collectors.toList());
+		if (productIds==null||productIds.size()<1){
+			return null;
+		}
 		List<ProductInfoEntity> productInfoEntities = productInfoService.listByIds(productIds).stream().map(item -> {
 			item.setNumber(getProductNumber(item.getId(), cartInfoEntities));
 			return item;
