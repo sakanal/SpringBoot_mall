@@ -29,7 +29,7 @@ import javax.annotation.Resource;
  * @author ouyang
  * @email wanbzoy@163.com
  */
-@Api(tags = "商品推荐管理")
+@Api(tags = "商品推荐管理（已废弃）")
 @RestController
 @RequestMapping("/recommendProduct")
 public class RecommendProductController {

@@ -38,8 +38,8 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 	}
 
 	@Override
-	public void removeByProductIds(String[] ids) {
-		this.remove(new QueryWrapper<CartInfoEntity>().in("product_id",ids));
+	public void removeByProductIds(CartInfoEntity ids) {
+		this.remove(new QueryWrapper<CartInfoEntity>().eq("user_id",ids.getUserId()).eq("product_id",ids.getProductId()));
 	}
 
 	@Override

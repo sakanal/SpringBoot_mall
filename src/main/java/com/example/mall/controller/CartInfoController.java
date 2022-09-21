@@ -94,8 +94,8 @@ public class CartInfoController {
      */
     @ApiOperation("根据商品id删除购物车加购商品")
     @DeleteMapping("/delete")
-    public R delete(@RequestBody String[] ids){
-		cartInfoService.removeByProductIds(ids);
+    public R delete(@RequestBody CartInfoEntity cartInfo){
+		cartInfoService.removeByProductIds(cartInfo);
 
         return R.ok();
     }

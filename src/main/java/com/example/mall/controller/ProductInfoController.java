@@ -161,7 +161,6 @@ public class ProductInfoController {
 		//删除商品关联信息
 		productInfoService.removeByIds(Arrays.asList(ids));
 		orderProductService.removeByProductIds(ids);
-		cartInfoService.removeByProductIds(ids);
 		//删除商品信息
 		recommendProductService.removeBatchByProductIds(ids);
 
