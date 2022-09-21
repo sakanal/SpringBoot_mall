@@ -70,29 +70,37 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 	@Transactional
 	@Override
 	public void saveOrder(List<OrderInfoVo> orderInfoList) {
+		//生成订单号
 		String uuid = IdWorker.get32UUID();
 		OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
+		//获取用户id
 		orderInfoEntity.setUserId(orderInfoList.get(0).getUserId());
 		Double total = new Double(0d);
 		orderInfoEntity.setOrderSn(uuid);
 		for (OrderInfoVo orderInfoVo : orderInfoList) {
+			//对订单中商品关系一个一个依次进行保存进订单商品
 			OrderProductEntity orderProductEntity = new OrderProductEntity();
 			orderProductEntity.setOrderSn(uuid);
 			orderProductEntity.setNumber(orderInfoVo.getProductNumber());
 			orderProductEntity.setProductId(orderInfoVo.getProductId());
 			ProductInfoEntity productInfo = productInfoService.getById(orderInfoVo.getProductId());
 			if (productInfo!=null){
+				//计算商品总价
 				total+=productInfo.getPrice()*orderInfoVo.getProductNumber();
 			}
 			orderProductService.save(orderProductEntity);
 		}
+		//设置收获地址信息
 		orderInfoEntity.setAddressId(orderInfoList.get(0).getAddressId());
 		orderInfoEntity.setCreateTime(new Date());
+		//随机生成运费
 		Double freightAmount= new Random().nextDouble()*100;
 		orderInfoEntity.setFreightAmount(freightAmount);
 		orderInfoEntity.setTotalAmount(total);
 		orderInfoEntity.setPayAmount(total+freightAmount);
+		//设置订单状态为新建
 		orderInfoEntity.setStatus(OrderState.NEW.getCode());
+		//订单保存到数据库
 		this.save(orderInfoEntity);
 	}
 
