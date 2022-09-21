@@ -127,6 +127,7 @@ public class ProductInfoController {
 	@PostMapping("/save")
 	public R save(@RequestBody ProductInfoEntity productInfo) {
 		List<PictureVo> pictureList = productInfo.getPictureList();
+		//对图片url进行转换
 		if (pictureList.size() > 0) {
 			String str = JSONUtil.toJsonStr(pictureList);
 			productInfo.setPicture(str);
@@ -157,10 +158,12 @@ public class ProductInfoController {
 	 */
 	@DeleteMapping("/delete")
 	public R delete(@RequestBody String[] ids) {
+		//删除商品关联信息
 		productInfoService.removeByIds(Arrays.asList(ids));
-		recommendProductService.removeBatchByProductIds(ids);
 		orderProductService.removeByProductIds(ids);
 		cartInfoService.removeByProductIds(ids);
+		//删除商品信息
+		recommendProductService.removeBatchByProductIds(ids);
 
 		return R.ok();
 	}
