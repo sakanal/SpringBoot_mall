@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.exception.MyException;
 import com.example.mall.service.ProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,27 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoDao, CartInfoEntity
 		this.update(cartInfo, new UpdateWrapper<CartInfoEntity>()
 				.eq("user_id",userId)
 				.eq("product_id",productId));
+	}
+
+	@Override
+	public void updateInCartByUserId(CartInfoEntity cartInfo) {
+		String userId = cartInfo.getUserId();
+		String productId = cartInfo.getProductId();
+		Integer number = cartInfo.getNumber();
+		// 先获取符合要求的商品
+		QueryWrapper<CartInfoEntity> queryWrapper = new QueryWrapper<CartInfoEntity>()
+				.eq("user_id", userId)
+				.eq("product_id", productId);
+		CartInfoEntity cartInfoEntity = this.getOne(queryWrapper);
+		// 要修改的商品存在
+		if (cartInfoEntity!=null){
+			// 将修改后的数量放入查询结果实体类中
+			cartInfoEntity.setNumber(number);
+			// 更新数据库
+			this.update(cartInfoEntity,queryWrapper);
+		}else { // 要修改的商品不存在
+			throw new MyException(20001,"更新失败");
+		}
 	}
 
 	private Integer getProductNumber(String id, List<CartInfoEntity> cartInfoEntities) {
