@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.constant.OrderState;
 import com.example.mall.constant.SelectArg;
+import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.OrderProductEntity;
 import com.example.mall.entity.ProductInfoEntity;
+import com.example.mall.service.CartInfoService;
 import com.example.mall.service.OrderProductService;
 import com.example.mall.service.ProductInfoService;
 import com.example.mall.vo.OrderInfoVo;
@@ -37,6 +39,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 	@Autowired
 	private ProductInfoService productInfoService;
 
+	@Autowired
+	private CartInfoService cartInfoService;
+
     @Override
     public Page<OrderInfoEntity> getPage(Map<String, Object> params) {
 		Integer current = params.get("current") == null ? 1 : new Integer(params.get("current").toString());
@@ -46,6 +51,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		return OrderInfoPage;
     }
 
+	/**
+	 *
+	 * @param orderId
+	 * @return
+	 */
 	@Override
 	public OrderInfoEntity getByOrderId(String orderId) {
 		OrderInfoEntity orderInfoEntity = this.getOne(new QueryWrapper<OrderInfoEntity>().eq(!StrUtil.isBlank(orderId), "order_sn", orderId));
@@ -74,7 +84,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		String uuid = IdWorker.get32UUID();
 		OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
 		//获取用户id
-		orderInfoEntity.setUserId(orderInfoList.get(0).getUserId());
+		String userId = orderInfoList.get(0).getUserId();
+		orderInfoEntity.setUserId(userId);
 		Double total = new Double(0d);
 		orderInfoEntity.setOrderSn(uuid);
 		for (OrderInfoVo orderInfoVo : orderInfoList) {
@@ -89,6 +100,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 				total+=productInfo.getPrice()*orderInfoVo.getProductNumber();
 			}
 			orderProductService.save(orderProductEntity);
+			CartInfoEntity cartInfoEntity = new CartInfoEntity();
+			cartInfoEntity.setUserId(userId);
+			cartInfoEntity.setProductId(orderInfoVo.getProductId());
+			cartInfoService.removeByProductIds(cartInfoEntity);
 		}
 		//设置收获地址信息
 		orderInfoEntity.setAddressId(orderInfoList.get(0).getAddressId());

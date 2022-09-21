@@ -53,12 +53,6 @@ public class ProductInfoController {
 	@Cacheable(value = "Product",key = "randomProduct")
 	public R pageFind(@PathVariable("size") Long size) {
 		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
-//		for (ProductInfoEntity productInfo : list) {
-//			String picture = productInfo.getPicture();
-//			JSONArray jsonArray = JSONUtil.parseArray(picture);
-//			List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-//			productInfo.setPictureList(pictureVos);
-//		}
 
 		return R.ok().setData(list);
 	}
@@ -100,10 +94,6 @@ public class ProductInfoController {
 	@GetMapping("/info/{id}")
 	public R info(@PathVariable("id") String id) {
 		ProductInfoEntity productInfo = productInfoService.getById(id);
-//		String picture = productInfo.getPicture();
-//		JSONArray jsonArray = JSONUtil.parseArray(picture);
-//		List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-//		productInfo.setPictureList(pictureVos);
 
 		return R.ok().setData(productInfo);
 	}

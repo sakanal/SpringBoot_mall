@@ -56,14 +56,8 @@ public class RecommendProductController {
     @GetMapping("/getRecommend/{size}")
     @Cacheable(value = "Product",key = "randomRecommendProduct")
     public R list(@PathVariable("size")Long size){
-//        List<String> recommendProductIds = recommendProductService.getRecommendProductIds(size);
         List<ProductInfoEntity> productInfoEntityList = productInfoService.randomGetRecommendProduct(size);
-//        for (ProductInfoEntity productInfo : productInfoEntityList) {
-//            String picture = productInfo.getPicture();
-//            JSONArray jsonArray = JSONUtil.parseArray(picture);
-//            List<PictureVo> pictureVos = JSONUtil.toList(jsonArray, PictureVo.class);
-//            productInfo.setPictureList(pictureVos);
-//        }
+
         return R.ok().setData(productInfoEntityList);
     }
 
