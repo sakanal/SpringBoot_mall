@@ -114,7 +114,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		orderInfoEntity.setTotalAmount(total);
 		orderInfoEntity.setPayAmount(total+freightAmount);
 		//设置订单状态为新建
-		orderInfoEntity.setStatus(OrderState.NEW.getCode());
+		orderInfoEntity.setStatus(OrderState.PAID.getCode());
 		//订单保存到数据库
 		this.save(orderInfoEntity);
 	}
