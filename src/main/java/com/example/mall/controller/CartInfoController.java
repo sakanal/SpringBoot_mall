@@ -88,6 +88,13 @@ public class CartInfoController {
 
         return R.ok();
     }
+    @ApiOperation("在购物车修改商品的数量")
+    @PutMapping("/updateInCart")
+    public R updateInCart(@RequestBody CartInfoEntity cartInfo){
+        cartInfoService.updateInCartByUserId(cartInfo);
+
+        return R.ok();
+    }
 
     /**
      * 删除

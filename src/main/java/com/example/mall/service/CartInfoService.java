@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  *
  * @author ouyang
  * @email wanbzoy@163.com
@@ -23,5 +23,7 @@ public interface CartInfoService extends IService<CartInfoEntity> {
 	List<ProductInfoEntity> getProductByUserId(String userId);
 
 	void updateByUserId(CartInfoEntity cartInfo);
+
+	void updateInCartByUserId(CartInfoEntity cartInfo);
 }
 
