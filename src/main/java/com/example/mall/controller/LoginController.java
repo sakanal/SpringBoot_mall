@@ -46,11 +46,13 @@ public class LoginController {
 		if (StrUtil.isBlank(email)) {
 			return R.error(ResultMessage.MISSING_PARAMETERS);
 		} else {
-			//TODO 发送验证码业务
+			//生成验证码
 			int code = (int) ((Math.random() * 9 + 1) * 100000);
 			String codeNum = String.valueOf(code);
+			//讲验证码存储到redis并设置过期时间
 			stringRedisTemplate.opsForValue().set(LoginCommonValue.PREFIX_SMS_CODE +email,
 					codeNum,LoginCommonValue.LOGIN_CODE_EXPIRE, TimeUnit.MINUTES);
+			//执行发送验证功能（整合spring mail邮箱发送验证码）
 			messageSendService.sendMsg(email,codeNum);
 			return R.ok();
 		}
@@ -60,8 +62,11 @@ public class LoginController {
 	@ApiOperation("注册")
 	@PostMapping("/register")
 	public R register(@RequestBody UserRegisterVo userRegisterVo) {
+		//获取前端传递验证码
 		String code = userRegisterVo.getCode();
+		//从redis获取验证吗
 		String emailCode = stringRedisTemplate.opsForValue().get(LoginCommonValue.PREFIX_SMS_CODE + userRegisterVo.getEmail());
+		//对注册验证码进行验证
 		if (!code.equals(emailCode)){
 			return R.error().setMessage("验证码错误");
 		}
@@ -77,6 +82,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public R login(@RequestBody UserLoginVo userLoginVo) {
 		log.info("用户登录");
+		//数据库进行验证用户登录信息
 		String token = userInfoService.login(userLoginVo);
 		if (StringUtils.hasText(token)){
 			return R.ok().setData(token);

@@ -1,17 +1,22 @@
 package com.example.mall;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.controller.CategoryInfoController;
 import com.example.mall.controller.LoginController;
 import com.example.mall.dao.CartInfoDao;
 import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.CategoryInfoEntity;
+import com.example.mall.entity.UserAddressEntity;
 import com.example.mall.service.CategoryInfoService;
 import com.example.mall.service.MessageSendService;
 import com.example.mall.service.impl.CartInfoServiceImpl;
 import com.example.mall.vo.R;
 import com.example.mall.vo.UserRegisterVo;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -75,5 +80,14 @@ class MallApplicationTests {
 		loginController.getMessageCode(userRegisterVo);
 	}
 
+	@Test
+	void jsonGet(){
+		UserAddressEntity userAddressEntity = new UserAddressEntity();
+		userAddressEntity.setAddress("江西省南昌市青山湖区");
+		userAddressEntity.setName("收货人姓名");
+		userAddressEntity.setPhone("123456789101");
+		userAddressEntity.setUserId("6135416514");
+		System.out.println(JSONUtil.toJsonStr(userAddressEntity));
+	}
 
 }
