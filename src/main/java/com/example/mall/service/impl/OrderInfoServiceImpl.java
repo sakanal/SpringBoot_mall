@@ -58,16 +58,21 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 	 */
 	@Override
 	public OrderInfoEntity getByOrderId(String orderId) {
-		OrderInfoEntity orderInfoEntity = this.getOne(new QueryWrapper<OrderInfoEntity>().eq(!StrUtil.isBlank(orderId), "order_sn", orderId));
+		//根据订单号查询订单信息
+		OrderInfoEntity orderInfoEntity = this.getOne(new QueryWrapper<OrderInfoEntity>()
+				.eq(!StrUtil.isBlank(orderId), "order_sn", orderId));
+		//查询订单中所有涉及到的商品信息
 		List<OrderProductEntity> orderProdectList = orderProductService.list(new QueryWrapper<OrderProductEntity>()
 				.eq(!StrUtil.isBlank(orderInfoEntity.getOrderSn()), "order_sn", orderInfoEntity.getOrderSn()));
 		List<String> productIds = orderProdectList.stream().map(item -> {
 			return item.getProductId();
 		}).collect(Collectors.toList());
+		//设置商品数量
 		List<ProductInfoEntity> productInfoEntities = productInfoService.listByIds(productIds);
 		for (ProductInfoEntity productInfoEntity : productInfoEntities) {
 			productInfoEntity.setNumber(getOrderProductNumber(productInfoEntity.getId(),orderProdectList));
 		}
+		//封装商品信息到订单
 		orderInfoEntity.setProductList(productInfoEntities);
 		return orderInfoEntity;
 	}
