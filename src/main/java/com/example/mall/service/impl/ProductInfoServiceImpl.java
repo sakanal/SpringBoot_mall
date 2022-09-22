@@ -41,14 +41,14 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 		QueryWrapper<ProductInfoEntity> queryWrapper = new QueryWrapper<>();
 		if (productQuery != null) {
 			//获取相关查询参数
-			Long cat_id = productQuery.getCat_id();
+			Long catId = productQuery.getCatId();
 			String name = productQuery.getName();
 			Integer price = productQuery.getPrice();
 			String userId = productQuery.getUserId();
 			if (StringUtils.hasText(name))
 				queryWrapper.like("name", name);
-			if (!StringUtils.isEmpty(cat_id))
-				queryWrapper.eq("cat_id", cat_id);
+			if (!StringUtils.isEmpty(catId))
+				queryWrapper.eq("cat_id", catId);
 			if (!StringUtils.isEmpty(price))
 				queryWrapper.le("price", price);
 			if (StringUtils.hasText(userId))

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProductQuery {
 
     @ApiModelProperty("商品类别id")
-    private Long cat_id;
+    private Long catId;
     @ApiModelProperty("商品名称")
     private String name;
     @ApiModelProperty("商家id")
