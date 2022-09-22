@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.example.mall.constant.LoginCommonValue;
 import com.example.mall.constant.ResultMessage;
 import com.example.mall.entity.UserInfoEntity;
+import com.example.mall.exception.MyException;
 import com.example.mall.service.MessageSendService;
 import com.example.mall.service.UserInfoService;
 import com.example.mall.utils.JwtUtil;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/simpleUser")
-public class LoginController {
+public class SimpleLoginController {
 	@Autowired
 	private UserInfoService userInfoService;
 
@@ -50,8 +51,13 @@ public class LoginController {
 			int code = (int) ((Math.random() * 9 + 1) * 100000);
 			String codeNum = String.valueOf(code);
 			//讲验证码存储到redis并设置过期时间
-			stringRedisTemplate.opsForValue().set(LoginCommonValue.PREFIX_SMS_CODE +email,
-					codeNum,LoginCommonValue.LOGIN_CODE_EXPIRE, TimeUnit.MINUTES);
+			try {
+				stringRedisTemplate.opsForValue().set(LoginCommonValue.PREFIX_SMS_CODE +email,
+						codeNum,LoginCommonValue.LOGIN_CODE_EXPIRE, TimeUnit.MINUTES);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new MyException(20001,"系统暂停注册");
+			}
 			//执行发送验证功能（整合spring mail邮箱发送验证码）
 			messageSendService.sendMsg(email,codeNum);
 			return R.ok();

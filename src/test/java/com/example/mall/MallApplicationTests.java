@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mall.controller.CategoryInfoController;
-import com.example.mall.controller.LoginController;
+import com.example.mall.controller.SimpleLoginController;
 import com.example.mall.dao.CartInfoDao;
 import com.example.mall.entity.CartInfoEntity;
 import com.example.mall.entity.CategoryInfoEntity;
@@ -36,7 +36,7 @@ class MallApplicationTests {
 	@Autowired
 	private CartInfoServiceImpl cartInfoService;
 	@Autowired
-	private LoginController loginController;
+	private SimpleLoginController loginController;
 	@Test
 	void contextLoads() {
 //		System.out.println(IdWorker.get32UUID()+Thread.currentThread().getName());
