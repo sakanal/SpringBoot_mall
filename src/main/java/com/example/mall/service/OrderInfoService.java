@@ -23,5 +23,7 @@ public interface OrderInfoService extends IService<OrderInfoEntity> {
     List<OrderInfoEntity> getProductsByUserId(String id);
 
 	void saveOrder(List<OrderInfoVo> orderInfoList);
+
+	void removeByOrderIds(String[] orderIds);
 }
 

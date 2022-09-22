@@ -89,9 +89,9 @@ public class OrderInfoController {
      * 删除
      */
     @DeleteMapping("/delete")
-    public R delete(@RequestBody String[] ids){
-		orderInfoService.removeByIds(Arrays.asList(ids));
-        orderProductService.removeByOrderIds(ids);
+    public R delete(@RequestBody String[] orderIds){
+		orderInfoService.removeByOrderIds(orderIds);
+        orderProductService.removeByOrderIds(orderIds);
 
         return R.ok();
     }

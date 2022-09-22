@@ -124,6 +124,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		this.save(orderInfoEntity);
 	}
 
+	@Override
+	public void removeByOrderIds(String[] orderIds) {
+		this.remove(new QueryWrapper<OrderInfoEntity>().in("order_sn",orderIds));
+	}
+
 	private Integer getOrderProductNumber(String id, List<OrderProductEntity> orderProdectList) {
 		for (OrderProductEntity orderProductEntity : orderProdectList) {
 			if (orderProductEntity.getId().equals(id)){
