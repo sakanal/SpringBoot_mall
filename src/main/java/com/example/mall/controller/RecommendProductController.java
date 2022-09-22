@@ -54,7 +54,7 @@ public class RecommendProductController {
      * @return
      */
     @GetMapping("/getRecommend/{size}")
-    @Cacheable(value = "Product",key = "randomRecommendProduct")
+//    @Cacheable(value = "Product",key = "'randomRecommendProduct'")
     public R list(@PathVariable("size")Long size){
         List<ProductInfoEntity> productInfoEntityList = productInfoService.randomGetRecommendProduct(size);
 

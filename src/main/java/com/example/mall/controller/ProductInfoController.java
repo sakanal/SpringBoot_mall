@@ -51,7 +51,7 @@ public class ProductInfoController {
 	 */
 	@ApiOperation("随机获取商品")
 	@PostMapping("/getRandomProduct/{size}")
-	@Cacheable(value = "Product",key = "randomProduct")
+//	@Cacheable(value = "Product",key = "'randomProduct'")
 	public R pageFind(@PathVariable("size") Long size) {
 		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
 
