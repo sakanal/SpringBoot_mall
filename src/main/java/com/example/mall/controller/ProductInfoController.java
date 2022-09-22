@@ -8,6 +8,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mall.constant.DefaultPicture;
 import com.example.mall.constant.SelectArg;
 import com.example.mall.vo.PictureVo;
 import com.example.mall.entity.ProductInfoEntity;
@@ -121,6 +122,8 @@ public class ProductInfoController {
 		if (pictureList.size() > 0) {
 			String str = JSONUtil.toJsonStr(pictureList);
 			productInfo.setPicture(str);
+		}else {
+			productInfo.setPicture(DefaultPicture.DEFAULT_URL);
 		}
 		productInfoService.save(productInfo);
 
