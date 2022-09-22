@@ -11,6 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.mall.entity.CategoryInfoEntity;
@@ -112,6 +115,7 @@ public class CategoryInfoController {
 	 */
 	@ApiOperation("保存")
 	@PostMapping("/save")
+	@CacheEvict(value = "Category",key = "'OneAndTwoLevel'")
 	public R save(@RequestBody CategoryInfoEntity categoryInfo) {
 		categoryInfoService.save(categoryInfo);
 
@@ -123,6 +127,7 @@ public class CategoryInfoController {
 	 */
 	@ApiOperation("修改")
 	@PutMapping("/update")
+	@CacheEvict(value = "Category",key = "'OneAndTwoLevel'")
 	public R update(@RequestBody CategoryInfoEntity categoryInfo) {
 		categoryInfoService.updateById(categoryInfo);
 
@@ -134,6 +139,7 @@ public class CategoryInfoController {
 	 */
 	@ApiOperation("删除")
 	@DeleteMapping("/delete")
+	@CacheEvict(value = "Category",key = "'OneAndTwoLevel'")
 	public R delete(@RequestBody Long[] catIds) {
 		categoryInfoService.removeByIds(Arrays.asList(catIds));
 

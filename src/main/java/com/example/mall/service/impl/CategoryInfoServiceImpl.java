@@ -5,6 +5,7 @@ import com.example.mall.constant.SelectArg;
 import com.example.mall.entity.ProductInfoEntity;
 import com.example.mall.service.ProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -36,6 +37,7 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
     }
 
 	@Override
+	@Cacheable(value = "Category",key = "'listWithTree'")
 	public List<CategoryInfoEntity> listWithTree() {
 		List<CategoryInfoEntity> list = baseMapper.selectList(null);
 		// 过滤一级分类
@@ -51,6 +53,7 @@ public class CategoryInfoServiceImpl extends ServiceImpl<CategoryInfoDao, Catego
 	}
 
 	@Override
+	@Cacheable(value = "Category",key = "'OneAndTwoLevel'")
 	public List<CategoryInfoEntity> getOneAndTwoLevel() {
 		QueryWrapper<CategoryInfoEntity> oneQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 1).orderByDesc("sort");
 		QueryWrapper<CategoryInfoEntity> twoQueryWrapper = new QueryWrapper<CategoryInfoEntity>().eq("cat_level", 2).orderByDesc("sort");
