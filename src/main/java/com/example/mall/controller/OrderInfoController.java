@@ -51,6 +51,18 @@ public class OrderInfoController {
         return R.ok().setData(page);
     }
 
+    @ApiOperation("条件搜索订单，分页")
+    @PostMapping("/pageFind/{current}")
+    public R pageFind(@PathVariable("current")Integer current,
+                      @RequestBody(required = false)OrderInfoEntity orderInfoEntity){
+        Page<OrderInfoEntity> page = orderInfoService.getPage(current,orderInfoEntity);
+        if (page.getRecords().size()>0){
+            return R.ok().setData(page);
+        }else {
+            return R.error().setMessage("暂无数据");
+        }
+    }
+
 
     /**
      * 根据订单id查询订单详细信息

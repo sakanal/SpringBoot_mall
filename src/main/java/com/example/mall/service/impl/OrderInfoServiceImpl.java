@@ -28,6 +28,7 @@ import com.example.mall.dao.OrderInfoDao;
 import com.example.mall.entity.OrderInfoEntity;
 import com.example.mall.service.OrderInfoService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 @Service("orderInfoService")
@@ -79,7 +80,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 
 	@Override
 	public List<OrderInfoEntity> getProductsByUserId(String id) {
-		return this.list(new QueryWrapper<OrderInfoEntity>().eq(StrUtil.isBlank(id),"user_id",id));
+		return this.list(new QueryWrapper<OrderInfoEntity>().eq(!StrUtil.isBlank(id),"user_id",id));
 	}
 
 	@Transactional
@@ -129,9 +130,32 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
 		this.remove(new QueryWrapper<OrderInfoEntity>().in("order_sn",orderIds));
 	}
 
+	public Page<OrderInfoEntity> getPage(Integer current, OrderInfoEntity orderInfoEntity) {
+		Page<OrderInfoEntity> orderInfoEntityPage = new Page<>(current, SelectArg.PAGESIZE);
+		// 判断搜索条件是否存在
+		if(orderInfoEntity!=null){
+			QueryWrapper<OrderInfoEntity> queryWrapper = new QueryWrapper<>();
+			// 订单号
+			String orderSn = orderInfoEntity.getOrderSn();
+			// 订单状态
+			Integer status = orderInfoEntity.getStatus();
+			// 用户id
+			String userId = orderInfoEntity.getUserId();
+			if (StringUtils.hasText(orderSn))
+				queryWrapper.like("order_sn",orderSn);
+			if (StringUtils.hasText(userId))
+				queryWrapper.eq("user_id",userId);
+			if (!StringUtils.isEmpty(status))
+				queryWrapper.eq("status",status);
+			return this.page(orderInfoEntityPage,queryWrapper);
+		}else {
+			return this.page(orderInfoEntityPage);
+		}
+	}
+
 	private Integer getOrderProductNumber(String id, List<OrderProductEntity> orderProdectList) {
 		for (OrderProductEntity orderProductEntity : orderProdectList) {
-			if (orderProductEntity.getId().equals(id)){
+			if (orderProductEntity.getProductId().equals(id)){
 				return orderProductEntity.getNumber();
 			}
 		}

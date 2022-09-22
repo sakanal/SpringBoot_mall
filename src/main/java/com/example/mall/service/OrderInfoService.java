@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  *
  * @author ouyang
  * @email wanbzoy@163.com
@@ -20,9 +20,11 @@ public interface OrderInfoService extends IService<OrderInfoEntity> {
 
 	OrderInfoEntity getByOrderId(String orderId);
 
-    List<OrderInfoEntity> getProductsByUserId(String id);
+	List<OrderInfoEntity> getProductsByUserId(String id);
 
 	void saveOrder(List<OrderInfoVo> orderInfoList);
+
+	Page<OrderInfoEntity> getPage(Integer current, OrderInfoEntity orderInfoEntity);
 
 	void removeByOrderIds(String[] orderIds);
 }
