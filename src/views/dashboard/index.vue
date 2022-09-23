@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎 {{ name }} 使用网上商城后台管理系统</div>
   </div>
 </template>
 

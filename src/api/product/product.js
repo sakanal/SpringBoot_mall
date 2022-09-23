@@ -2,9 +2,10 @@ import request from '@/utils/request'
 
 export default {
   // 根据商品类型id获取有关
-  getProductByCatId(catId) {
+  getProductByCatId(current, catId) {
     return request({
-      url: ``
+      url: `/productInfo/getByCategoryId/${current}/${catId}`,
+      method: 'get'
     })
   },
   getProductInfoById(productId) {

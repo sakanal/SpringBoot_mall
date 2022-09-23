@@ -179,7 +179,7 @@ export default {
     },
     // 查看二级分类下的三级分类，跳转页面
     check(catId) {
-      this.$router.push({ path: `/category/product/${catId}` })
+      this.$router.push({ path: `/category/recommendProduct/${catId}` })
     }
   }
 }

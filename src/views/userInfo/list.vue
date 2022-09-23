@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" :model="userQuery" size="small" class="demo-form-inline">
+    <el-form ref="userQuery" :inline="true" :model="userQuery" size="small" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="userQuery.name" placeholder="姓名" />
+        <el-input v-model="userQuery.userName" placeholder="姓名" />
       </el-form-item>
       <el-form-item>
         <el-select v-model="userQuery.role" clearable placeholder="角色">
@@ -12,26 +12,14 @@
         </el-select>
       </el-form-item>
       <el-form-item label="添加时间">
-        <el-date-picker
-          v-model="userQuery.startTime"
-          type="datetime"
-          placeholder="选择开始时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
+        <el-date-picker v-model="userQuery.startTime" type="datetime" placeholder="选择开始时间" value-format="yyyy-MM-dd HH:mm:ss" default-time="00:00:00"/>
       </el-form-item>
       <el-form-item>
-        <el-date-picker
-          v-model="userQuery.endTime"
-          type="datetime"
-          placeholder="选择结束时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
+        <el-date-picker v-model="userQuery.endTime" type="datetime" placeholder="选择结束时间" value-format="yyyy-MM-dd HH:mm:ss" default-time="00:00:00"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getTeacherListPage()">查询</el-button>
-        <el-button @click="resetData()">重置</el-button>
+        <el-button type="primary" @click="getUserInfoListPage()">查询</el-button>
+        <el-button @click="resetData('userQuery')">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -72,8 +60,7 @@
       :current-page="current"
       :page-size="10"
       :total="total"
-      @current-change="getUserInfoListPage"
-    />
+      @current-change="getUserInfoListPage"/>
   </div>
 </template>
 
@@ -86,26 +73,8 @@ export default {
       isLoading: true,
       current: 1,
       total: -1,
-      userInfoList: [
-        {
-          id: '1570694161105997825',
-          userName: 'string', //
-          password: 'string',
-          mobile: 'string',
-          email: 'string', //
-          gender: 0,
-          role: 0, //
-          createTime: '2022-09-16 16:40:45', //
-          updateTime: '2022-09-16 16:40:45',
-          isDelete: 0
-        }
-      ],
-      userQuery: {
-        // userName: '',
-        // role: 0,
-        // startTime: '',
-        // endTime: ''
-      }
+      userInfoList: [],
+      userQuery: {}
     }
   },
   created() {
@@ -114,14 +83,23 @@ export default {
   },
   methods: {
     getUserInfoListPage(current = 1) {
+      this.isLoading = true
       this.current = current
       userInfo.pageUserInfoFind(this.current, this.userQuery)
         .then(response => {
           console.log(response)
           this.userInfoList = response.data.records
           this.total = response.data.total
+          this.isLoading = false
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error)
+          this.isLoading = false
+        })
+    },
+    resetData(formName) {
+      this.userQuery = {}
+      this.getUserInfoListPage()
     },
     removeUserById(userId) {
       this.$confirm('此操作将永久删除该用户信息, 是否继续?', '提示', {

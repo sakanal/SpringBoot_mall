@@ -33,16 +33,23 @@
       <el-form-item label="商品价格">
         <el-input-number v-model="productInfo.price" :min="0" label="描述文字" />
       </el-form-item>
-      <el-form-item label="商家">
-        <el-select v-model="productInfo.userId" placeholder="请选择">
-          <el-option
-            v-for="merchant in merchantList"
-            :key="merchant.id"
-            :label="merchant.userName"
-            :value="merchant.id"
-            filterable
-          />
-        </el-select>
+<!--      <el-form-item label="商家">-->
+<!--        <el-select v-model="productInfo.userId" placeholder="请选择">-->
+<!--          <el-option-->
+<!--            v-for="merchant in merchantList"-->
+<!--            :key="merchant.id"-->
+<!--            :label="merchant.userName"-->
+<!--            :value="merchant.id"-->
+<!--            filterable-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+      <el-form-item label="商品推荐">
+        <el-switch
+          v-model="isRecommend"
+          active-text="推荐"
+          inactive-text="不推荐">
+        </el-switch>
       </el-form-item>
       <el-form-item>
         <template v-if="isAdd === true">
@@ -51,7 +58,7 @@
         <template v-else>
           <el-button type="primary" @click="updateProductInfo('productInfo')">保存</el-button>
         </template>
-        <el-button>重置</el-button>
+<!--        <el-button>重置</el-button>-->
       </el-form-item>
     </el-form>
   </div>
@@ -65,18 +72,19 @@ import userInfo from '@/api/userInfo/userInfo'
 import * as imageConversion from 'image-conversion'
 export default {
   data() {
-    const validateCatId = (rule, value, callback) => {
-      if (value === 0) {
-        callback(new Error('请选择商品类型'))
-      } else {
-        callback()
-      }
-    }
+    // const validateCatId = (rule, value, callback) => {
+    //   if (value === 0) {
+    //     callback(new Error('请选择商品类型'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       productInfo: {
         pictureList: [], // 商品图片
         price: 0 // 商品价格
       },
+      isRecommend: false,
       isAdd: true,
       isInit: true,
       isUpload: false,
@@ -84,7 +92,7 @@ export default {
       productInfoRules: {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
         ],
         catId: [
           // { required: true, message: '请选择商品类型', trigger: 'blur' },
@@ -152,6 +160,9 @@ export default {
         .then(response => {
           console.log(response)
           this.productInfo = response.data
+          if (this.productInfo.isRecommend === 1) {
+            this.isRecommend = true
+          }
           this.fileList = this.productInfo.pictureList
           category.getCategoryPath(this.productInfo.catId)
             .then(response => {
@@ -242,6 +253,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.getPictureList()
+          if (this.isRecommend) {
+            this.productInfo.isRecommend = 1
+          } else {
+            this.productInfo.isRecommend = 0
+          }
           product.addProduct(this.productInfo)
             .then(response => {
               this.$router.push({ path: '/product/list' })
@@ -257,6 +273,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.getUpdatePictureList()
+          if (this.isRecommend) {
+            this.productInfo.isRecommend = 1
+          } else {
+            this.productInfo.isRecommend = 0
+          }
           product.updateProduct(this.productInfo)
             .then(response => {
               this.$router.push({ path: '/product/list' })
