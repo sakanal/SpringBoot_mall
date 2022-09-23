@@ -75,7 +75,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 		}
 		UserInfoEntity userInfoEntity = new UserInfoEntity();
 		BeanUtils.copyProperties(user,userInfoEntity);
-		return this.save(userInfoEntity);
+		boolean save = false;
+		try {
+			save = this.save(userInfoEntity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MyException(20001,"注册失败，请联系管理员");
+		}
+		return save;
 	}
 
 	@Override

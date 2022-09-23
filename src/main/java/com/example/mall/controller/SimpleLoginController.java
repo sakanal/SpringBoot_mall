@@ -71,7 +71,13 @@ public class SimpleLoginController {
 		//获取前端传递验证码
 		String code = userRegisterVo.getCode();
 		//从redis获取验证吗
-		String emailCode = stringRedisTemplate.opsForValue().get(LoginCommonValue.PREFIX_SMS_CODE + userRegisterVo.getEmail());
+		String emailCode = null;
+		try {
+			emailCode = stringRedisTemplate.opsForValue().get(LoginCommonValue.PREFIX_SMS_CODE + userRegisterVo.getEmail());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MyException(20001,"系统暂停注册");
+		}
 		//对注册验证码进行验证
 		if (!code.equals(emailCode)){
 			return R.error().setMessage("验证码错误");
