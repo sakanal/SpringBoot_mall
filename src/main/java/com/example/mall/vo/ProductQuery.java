@@ -20,4 +20,6 @@ public class ProductQuery {
     private String userId;
     @ApiModelProperty("商品价格")
     private Integer price;
+    @ApiModelProperty("是否推荐")
+    private Integer isRecommend;
 }

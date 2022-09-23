@@ -45,6 +45,7 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 			String name = productQuery.getName();
 			Integer price = productQuery.getPrice();
 			String userId = productQuery.getUserId();
+			Integer isRecommend = productQuery.getIsRecommend();
 			if (StringUtils.hasText(name))
 				queryWrapper.like("name", name);
 			if (!StringUtils.isEmpty(catId))
@@ -53,6 +54,8 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 				queryWrapper.le("price", price);
 			if (StringUtils.hasText(userId))
 				queryWrapper.eq("user_id", userId);
+			if (!StringUtils.isEmpty(isRecommend))
+				queryWrapper.eq("is_recommend",isRecommend);
 		}
 		//执行查询
 		this.page(page, queryWrapper);
