@@ -24,21 +24,28 @@ public class AdminLoginController {
     @Resource
     private UserInfoService userInfoService;
 
-    @ApiOperation("登录")
+    @ApiOperation("管理员登录")
     @PostMapping("/login")
     public R login(@RequestBody UserInfoEntity userInfo){
+        // 获取登录的用户名
         String userName = userInfo.getUserName();
+        // 获取登录的密码
         String password = userInfo.getPassword();
+        // 判断用户名是否存在数据
         if (!StringUtils.hasText(userName)){
             throw new MyException(20001,"未输入用户名");
         }
+        // 判断密码是否存在数据
         if (!StringUtils.hasText(password)){
             throw new MyException(20001,"未输入密码");
         }
+        // 创建查询条件，用户身份为0（管理员），用户名和密码为前端传递过来的值
         QueryWrapper<UserInfoEntity> queryWrapper = new QueryWrapper<UserInfoEntity>().eq("role", 0);
         queryWrapper.eq("username",userName).eq("password",password);
         UserInfoEntity userInfoEntity = userInfoService.getOne(queryWrapper);
+        // 如果从数据库中获取到的数据不会空，代表用户存在，且用户名和密码对应
         if (userInfoEntity!=null){
+            // 根据用户id和用户名称生成对应的token登录凭证
             String userJwtToken = JwtUtil.getUserJwtToken(userInfoEntity.getId(), userInfoEntity.getUserName());
             Map<String, String> loginToken = new HashMap<>();
             loginToken.put("token",userJwtToken);

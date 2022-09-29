@@ -54,8 +54,11 @@ public class ProductInfoController {
 //	@Cacheable(value = "Product",key = "'randomProduct'")
 	public R pageFind(@PathVariable("size") Long size) {
 		List<ProductInfoEntity> list = productInfoService.getRandomProduct(size);
-
-		return R.ok().setData(list);
+		if (list.size()>0){
+			return R.ok().setData(list);
+		}else {
+			return R.error();
+		}
 	}
 
 	@ApiOperation("根据商家id查询所有商品")
@@ -95,8 +98,11 @@ public class ProductInfoController {
 	@GetMapping("/info/{id}")
 	public R info(@PathVariable("id") String id) {
 		ProductInfoEntity productInfo = productInfoService.getById(id);
-
-		return R.ok().setData(productInfo);
+		if (productInfo!=null){
+			return R.ok().setData(productInfo);
+		}else {
+			return R.error();
+		}
 	}
 
 	@ApiOperation("根据商品类别id，获取商品信息列表")
@@ -125,8 +131,8 @@ public class ProductInfoController {
 		}else {
 			productInfo.setPicture(DefaultPicture.DEFAULT_URL);
 		}
+		// 将图片数据保存到数据库中
 		productInfoService.save(productInfo);
-
 		return R.ok();
 	}
 
@@ -136,6 +142,7 @@ public class ProductInfoController {
 	@PutMapping("/update")
 	public R update(@RequestBody ProductInfoEntity productInfo) {
 		List<PictureVo> pictureList = productInfo.getPictureList();
+		//对图片url进行转换
 		if (pictureList.size() > 0) {
 			String str = JSONUtil.toJsonStr(pictureList);
 			productInfo.setPicture(str);

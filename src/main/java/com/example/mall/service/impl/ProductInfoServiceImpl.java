@@ -46,14 +46,19 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 			Integer price = productQuery.getPrice();
 			String userId = productQuery.getUserId();
 			Integer isRecommend = productQuery.getIsRecommend();
+			// 查询条件是否包括商品标题
 			if (StringUtils.hasText(name))
 				queryWrapper.like("name", name);
+			// 查询条件是否包括商品类别id
 			if (!StringUtils.isEmpty(catId))
 				queryWrapper.eq("cat_id", catId);
+			// 查询条件是否包括商品价格
 			if (!StringUtils.isEmpty(price))
 				queryWrapper.le("price", price);
+			// 查询条件是否包括商品商家id
 			if (StringUtils.hasText(userId))
 				queryWrapper.eq("user_id", userId);
+			// 查询条件是否包括商品推荐与否
 			if (!StringUtils.isEmpty(isRecommend))
 				queryWrapper.eq("is_recommend",isRecommend);
 		}
@@ -92,7 +97,6 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoDao, ProductI
 		}
 		//执行查询
 		List<ProductInfoEntity> list = this.list(wrapper);
-
 		return list;
 	}
 

@@ -57,6 +57,7 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 	@Override
 	public Boolean removeRecommend(String productId) {
 		ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+		// 0代表不是推荐商品
 		productInfoEntity.setIsRecommend(0);
 		productInfoEntity.setId(productId);
 		return productInfoService.updateById(productInfoEntity);
@@ -65,6 +66,7 @@ public class RecommendProductServiceImpl extends ServiceImpl<RecommendProductDao
 	@Override
 	public Boolean setRecommend(String productId) {
 		ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+		// 1代表是推荐商品
 		productInfoEntity.setIsRecommend(1);
 		productInfoEntity.setId(productId);
 		return productInfoService.updateById(productInfoEntity);

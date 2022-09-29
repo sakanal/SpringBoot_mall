@@ -104,12 +104,14 @@ public class RecommendProductController {
     @ApiOperation("根据商品id设置推荐商品")
     @PutMapping("/setRecommend/{productId}")
     public R setRecommend(@PathVariable("productId")String productId){
+        // 参数为要设置为推荐商品的商品id
         Boolean result = recommendProductService.setRecommend(productId);
         return result?R.ok():R.error();
     }
     @ApiOperation("根据商品id取消推荐商品")
     @PutMapping("/removeRecommend/{productId}")
     public R removeRecommend(@PathVariable("productId")String productId){
+        // 参数为要取消为推荐商品的商品id
         Boolean result = recommendProductService.removeRecommend(productId);
         return result?R.ok():R.error();
     }

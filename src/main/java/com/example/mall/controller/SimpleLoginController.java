@@ -44,14 +44,15 @@ public class SimpleLoginController {
 	@PostMapping("/getMsCode")
 	public R getMessageCode(@RequestBody UserRegisterVo userRegisterVo) {
 		String email = userRegisterVo.getEmail();
+		// 邮箱数据为空
 		if (StrUtil.isBlank(email)) {
 			return R.error(ResultMessage.MISSING_PARAMETERS);
 		} else {
 			//生成验证码
 			int code = (int) ((Math.random() * 9 + 1) * 100000);
 			String codeNum = String.valueOf(code);
-			//讲验证码存储到redis并设置过期时间
 			try {
+				//讲验证码存储到redis并设置过期时间为10分钟
 				stringRedisTemplate.opsForValue().set(LoginCommonValue.PREFIX_SMS_CODE +email,
 						codeNum,LoginCommonValue.LOGIN_CODE_EXPIRE, TimeUnit.MINUTES);
 			} catch (Exception e) {
@@ -70,9 +71,9 @@ public class SimpleLoginController {
 	public R register(@RequestBody UserRegisterVo userRegisterVo) {
 		//获取前端传递验证码
 		String code = userRegisterVo.getCode();
-		//从redis获取验证吗
 		String emailCode = null;
 		try {
+			//从redis获取验证吗
 			emailCode = stringRedisTemplate.opsForValue().get(LoginCommonValue.PREFIX_SMS_CODE + userRegisterVo.getEmail());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,6 +83,7 @@ public class SimpleLoginController {
 		if (!code.equals(emailCode)){
 			return R.error().setMessage("验证码错误");
 		}
+		// 保存用户信息到数据库中
 		boolean success = userInfoService.addUser(userRegisterVo);
 		if (success) {
 			return R.ok();

@@ -67,9 +67,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 
 	@Override
 	public boolean addUser(UserRegisterVo user) {
+		// 创建查询条件，统计相同用户名和邮箱的用户数
 		QueryWrapper<UserInfoEntity> wrapper = new QueryWrapper<>();
 		wrapper.eq(user.getUserName()!=null,"username",user.getUserName())
 				.or().eq(user.getEmail()!=null,"email",user.getEmail());
+		// 用户数大于0，代表有重复用户，无法创建新用户
 		if (this.count(wrapper)>0) {
 			return false;
 		}
@@ -77,6 +79,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 		BeanUtils.copyProperties(user,userInfoEntity);
 		boolean save = false;
 		try {
+			// 保存用户信息
 			save = this.save(userInfoEntity);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,28 +93,36 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
 		if (userLoginVo!=null){
 			String email = userLoginVo.getEmail();
 			String password = userLoginVo.getPassword();
+			// 判断输入的邮箱数据是否有值
 			if (!StringUtils.hasText(email)){
 				throw new MyException(20001,"登录邮箱为空");
 			}
+			// 判断输入的密码数据是否有值
 			if (!StringUtils.hasText(password)){
 				throw new MyException(20001,"登录密码为空");
 			}
+			// 设置邮箱为查询条件，查询数据库数据中是否存在用户
 			QueryWrapper<UserInfoEntity> queryWrapper = new QueryWrapper<UserInfoEntity>().eq("email", email);
 			UserInfoEntity userInfo = this.getOne(queryWrapper);
+			// 查询结果为null，数据库中不存在对应的用户
 			if (userInfo==null){
 				throw new MyException(20001,"用户不存在");
 			}
+			// 判断查询出来的用户数据的密码和前端传递过来的密码是否相同
 			if (Objects.equals(userInfo.getPassword(), password)){
+				// 用户被逻辑删除了
 				if (userInfo.getIsDelete() != 0){
 					throw new MyException(20001,"用户无效");
 				}else {
+					// 登录成功，将用户id和用户名作为token的主体部分生成token，并返回生成的token
 					return JwtUtil.getUserJwtToken(userInfo.getId(),userInfo.getUserName());
 				}
 			}else {
+				// 前端传递的密码和数据库中的密码不匹配
 				throw new MyException(20001,"密码错误");
 			}
-
 		}else {
+			// 前端传递的数据体为空
 			throw new MyException(20001,"登录信息为空");
 		}
 	}
